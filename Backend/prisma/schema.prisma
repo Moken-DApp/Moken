@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../database/moken.db"
+}
+
+model Propetie {
+  id              String   @id @unique
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  title           String
+  currentPrice    Float
+  offers          Offer[]
+  type            String   
+  sold            Boolean  @default(false)
+  onSale          Boolean  @default(false)
+  owner           String
+
+  @@map("properties")
+}
+
+model Offer {
+  id              Int      @id @default(autoincrement())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  price           Float
+  wallet          String
+  brlPrice        Float
+
+  propertyId      String
+  property        Propetie @relation(fields: [propertyId], references: [id])
+
+  @@map("offers")
+}
