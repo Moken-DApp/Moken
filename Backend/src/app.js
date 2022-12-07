@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require('express');
 require("express-async-errors");
 require("dotenv").config();
 var bodyParser = require("body-parser");
@@ -15,6 +15,12 @@ app.use(
 );
 
 const PORT = process.env.PORT || 3001;
+
+const propetieRouter = require('./Routes/properties.js');
+const offerRouter = require('./Routes/Offers.js');
+
+app.use('/Propertie', propetieRouter);
+app.use('/Offer', offerRouter);
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta http://localhost:${PORT}`);

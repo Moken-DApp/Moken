@@ -7,18 +7,34 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "../src/database/moken.db"
+  url      = "file:../database/moken.db"
 }
 
 model Propetie {
-  id              Int      @id @default(autoincrement())
+  id              String   @id @unique
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-  title           String   @db.VarChar(255)
+  title           String
   currentPrice    Float
   offers          Offer[]
-  type            String   @db.VarChar(255)
+  type            String   
   sold            Boolean  @default(false)
   onSale          Boolean  @default(false)
   owner           String
+
+  @@map("properties")
+}
+
+model Offer {
+  id              Int      @id @default(autoincrement())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  price           Float
+  wallet          String
+  brlPrice        Float
+
+  propertyId      String
+  property        Propetie @relation(fields: [propertyId], references: [id])
+
+  @@map("offers")
 }
