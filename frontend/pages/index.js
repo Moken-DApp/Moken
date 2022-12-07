@@ -1,5 +1,14 @@
+import { HomeIllus } from "../assets/IllustrationHome";
+import { Layout } from "../components/Layout";
+
 const Home = () => {
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+    return (
+        <Layout>
+            <div className="w-full mt-4">
+                <HomeIllus width={300} className={"w-full"} />
+            </div>
+        </Layout>
+    );
 };
 
 export default Home;
