@@ -1,12 +1,96 @@
+import { useContext, useEffect, useRef, useState } from "react";
+
 import { Illustration } from "../assets/Illustration1";
 import { Illustration2 } from "../assets/Illustration2";
 import { Layout } from "../components/Layout";
-
-import jazzicon from "@metamask/jazzicon";
-import { useEffect, useRef } from "react";
+import { Context } from "../context";
+import { Coin } from "../assets/Coin";
+import { useRouter } from "next/router";
 import Image from "next/image";
 
+import preview from "../assets/preview.png";
+import { Property } from "../components/Property";
+import Link from "next/link";
+
 const Home = () => {
+    const { state, dispatch } = useContext(Context);
+    const router = useRouter();
+
+    useEffect(() => {
+        const user = state.user;
+
+        user.wallet ?? router.push("/login");
+    });
+
+    const [properties, setProperties] = useState([
+        {
+            image: preview,
+            category: "Apartamento",
+            price: 145630.46,
+            address:
+                "Av. Prof. Almeida Prado, 520 - Butantã, São Paulo - SP, 05508-070",
+            area: 342,
+            details: ["6 quartos", "2 vagas"],
+            amount: 1 / 4,
+            id: 3145,
+        },
+        {
+            image: preview,
+            category: "Apartamento",
+            price: 145630.46,
+            address:
+                "Av. Prof. Almeida Prado, 520 - Butantã, São Paulo - SP, 05508-070",
+            area: 342,
+            details: ["6 quartos", "2 vagas"],
+            amount: 1 / 4,
+            id: 3145,
+        },
+        {
+            image: preview,
+            category: "Apartamento",
+            price: 145630.46,
+            address:
+                "Av. Prof. Almeida Prado, 520 - Butantã, São Paulo - SP, 05508-070",
+            area: 342,
+            details: ["6 quartos", "2 vagas"],
+            amount: 1 / 4,
+            id: 3145,
+        },
+        {
+            image: preview,
+            category: "Apartamento",
+            price: 145630.46,
+            address:
+                "Av. Prof. Almeida Prado, 520 - Butantã, São Paulo - SP, 05508-070",
+            area: 342,
+            details: ["6 quartos", "2 vagas"],
+            amount: 1 / 4,
+            id: 3145,
+        },
+        {
+            image: preview,
+            category: "Apartamento",
+            price: 145630.46,
+            address:
+                "Av. Prof. Almeida Prado, 520 - Butantã, São Paulo - SP, 05508-070",
+            area: 342,
+            details: ["6 quartos", "2 vagas"],
+            amount: 1 / 4,
+            id: 3145,
+        },
+        {
+            image: preview,
+            category: "Apartamento",
+            price: 145630.46,
+            address:
+                "Av. Prof. Almeida Prado, 520 - Butantã, São Paulo - SP, 05508-070",
+            area: 342,
+            details: ["6 quartos", "2 vagas"],
+            amount: 1 / 4,
+            id: 3145,
+        },
+    ]);
+
     return (
         <Layout>
             <div className="flex flex-col justify-center items-center w-full md:w-2/5 md:mx-auto">
@@ -22,7 +106,7 @@ const Home = () => {
                             className="bg-white px-4 py-3 rounded-l-xl shadow-md w-4/5"
                             placeholder="Busque por avenida"
                         />
-                        <button className="bg-black text-white rounded-r-xl py-3  shadow-md w-1/5 text-center">
+                        <button className="bg-black text-white rounded-r-xl py-3 shadow-md w-1/5 text-center">
                             Buscar
                         </button>
                     </div>
@@ -37,14 +121,13 @@ const Home = () => {
                 <div className="flex flex-col items-center flex-1 w-full mt-16">
                     <p className="text-2xl font-bold">Recomendamos para você</p>
 
-                    <div className="my-2">
-						{/* card */}
-						<div>
-							<div>
-                                <Image />
-                            </div>
-						</div>
-					</div>
+                    <div className="flex overflow-x-auto space-x-8 w-full my-4" id="image-slider">
+                        {properties
+                            ? properties.map((property, index) => (
+                                  <Property {...property} key={index} />
+                              ))
+                            : null}
+                    </div>
 
                     <button className="bg-black py-2 px-8 text-white rounded-md">
                         Ver mais propriedades

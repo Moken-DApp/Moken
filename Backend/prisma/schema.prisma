@@ -38,3 +38,14 @@ model Offer {
 
   @@map("offers")
 }
+
+model Admin {
+  id              String   @id @unique
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  name            String   @unique
+  email           String   @unique
+  password        String
+
+  @@map("admins")
+}
