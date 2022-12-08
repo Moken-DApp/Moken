@@ -1,4 +1,4 @@
-export const HomeIllus = ({ className, color, width }) => {
+export const Illustration = ({ className, color, width }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"

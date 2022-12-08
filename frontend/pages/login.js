@@ -5,9 +5,11 @@ import { Moken } from "../assets/Moken";
 import Link from "next/link";
 
 import { ethers } from "ethers";
-import { HomeIllus } from "../assets/IllustrationHome";
+import { Illustration } from "../assets/Illustration1";
+import { useRouter } from "next/router";
 
 const Login = () => {
+    const router = useRouter();
     const { state, dispatch } = useContext(Context);
 
     const handleLogin = async () => {
@@ -27,27 +29,27 @@ const Login = () => {
                 type: "LOGGED_IN_USER",
                 payload: user,
             });
+
+            console.log("Logged and redirecting");
+            router.push("/");
         } catch (error) {
             console.error("error", error);
         }
     };
 
-    console.log("state.user.wallet", state.user.wallet);
-
     return (
-        <Layout title="Login" navbar={false}>
-            <div className="w-full flex flex-row border border-emerald-500 h-screen p-0">
-                <div className="flex flex-col my-auto w-full md:w-1/3 md:mx-auto border border-red-500">
+        <Layout title="Login" navbar={false} footer={false}>
+            <div className="w-full flex flex-row h-screen p-0">
+                <div className="flex flex-col my-auto w-full md:w-1/3 md:mx-auto">
                     <Moken />
 
                     <h1 className="text-2xl my-8">
-                        Que bom te ver
-                        <br />
-                        por aqui
                         {state.user.wallet
-                            ? `, ${state.user.wallet.slice(0, 7)}...`
-                            : ""}
-                        !
+                            ? `Que bom te ver \n por aqui, ${state.user.wallet.slice(
+                                  0,
+                                  7
+                              )}...!`
+                            : "Seja bem vindo à sua plataforma de gestão imobiliária"}
                     </h1>
 
                     <button
@@ -57,22 +59,16 @@ const Login = () => {
                         Entrar
                     </button>
 
-                    {!state.user.wallet ? (
-                        <p className="mt-4">
-                            Faça login com sua carteira para acessar sua conta!
-                        </p>
-                    ) : null}
-
-                    <Link className="font-semibold mt-8 mb-2 text-lg" href="/">
+                    <Link className="mt-8 mb-2 text-lg" href="/">
                         Entrar com outra conta {">"}
                     </Link>
-                    <Link className="font-semibold text-lg" href="/">
-                        Iniciar novo cadastro {">"}
+                    <Link className="text-lg" href="/">
+                        Acesso para funcionários Públicos {">"}
                     </Link>
                 </div>
 
                 <div className="hidden md:w-2/3 border border-blue-500">
-                    <HomeIllus className={"w-[80%] mx-auto h-full"} />
+                    <Illustration className={"w-[80%] mx-auto h-full"} />
                 </div>
             </div>
         </Layout>
