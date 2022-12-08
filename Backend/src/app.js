@@ -18,9 +18,14 @@ const PORT = process.env.PORT || 3001;
 
 const propetieRouter = require('./Routes/properties.js');
 const offerRouter = require('./Routes/Offers.js');
+const adminRouter = require('./Routes/Admin.js');
+const userRouter = require('./Routes/User.js');
 
 app.use('/Propertie', propetieRouter);
 app.use('/Offer', offerRouter);
+app.use('/Admin', adminRouter);
+app.use('/User', userRouter);
+
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta http://localhost:${PORT}`);
