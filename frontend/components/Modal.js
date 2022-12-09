@@ -10,9 +10,11 @@ import { MetamaskIcon } from "../assets/icons/Metamask";
 
 import { useContext } from "react";
 import { Context } from "../context";
+import { useRouter } from "next/router";
 
 export const Modal = ({ opened, closeModal }) => {
-    const { state } = useContext(Context);
+    const { state, dispatch } = useContext(Context);
+    const router = useRouter();
 
     return opened ? (
         <div className="z-100 absolute bg-white flex flex-1 flex-col items-center w-full h-screen py-8 px-4">
@@ -27,7 +29,7 @@ export const Modal = ({ opened, closeModal }) => {
                     </button>
                 </div>
 
-                <div className="flex flex-col w-2/5 transform hover:scale-105 transition duration-300 ease-in-out px-4">
+                <div className="flex flex-col w-7/12 transform hover:scale-105 transition duration-300 ease-in-out px-4">
                     <div className="py-2 px-4 flex flex-row justify-between items-center rounded-t-2xl border-2 border-black border-b-0 w-full shadow-xl">
                         <Coin />
 
@@ -93,6 +95,25 @@ export const Modal = ({ opened, closeModal }) => {
 
                         <Arrow width={20} />
                     </Link>
+
+                    <button
+                        onClick={() => {
+                            dispatch({
+                                type: "LOGGED_OUT_USER",
+                            });
+                            router.push("/login");
+                        }}
+                        className="w-4/5 border-2 border-white bg-black text-white rounded-3xl px-4 py-2 flex flex-row justify-center mt-8 items-center shadow-lg transition ease-in-out delay-75 hover:-translate-y-1 hover:scale-105 duration-200"
+                    >
+                        <Arrow
+                            width={20}
+                            color={"#fff"}
+                            className={"rotate-180"}
+                        />
+                        <div className="flex flex-row justify-center items-center">
+                            <p className="font-semibold text-xl ml-2">Sair</p>
+                        </div>
+                    </button>
                 </div>
             </div>
         </div>

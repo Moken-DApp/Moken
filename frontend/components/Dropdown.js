@@ -33,7 +33,7 @@ export const Dropdown = ({ question, answer }) => {
                 </svg>
             </div>
             <div
-                class={`${
+                className={`${
                     dropdownOpen
                         ? `top-full opacity-100 visible flex transition ease-in-out duration-300`
                         : "top-[110%] invisible hidden opacity-0"

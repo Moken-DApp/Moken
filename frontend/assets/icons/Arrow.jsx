@@ -9,7 +9,7 @@ export const Arrow = ({ color, width, className }) => {
             className={className}
         >
             <g
-                stroke={"#000" || color}
+                stroke={color || "#000"}
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="1.5"

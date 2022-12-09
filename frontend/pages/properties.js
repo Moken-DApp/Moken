@@ -21,8 +21,6 @@ export const Modal = ({ opened, closeModal, filter, setFilter }) => {
     const onSubmit = (data) => {
         const { minValue, maxValue } = data;
 
-        console.log(minValue, maxValue);
-
         if (minValue <= maxValue) {
             setFilter({ maxValue: maxValue, minValue: minValue });
             closeModal();
@@ -174,8 +172,6 @@ const Properties = () => {
 
     const filterList = (newFilter) => {
         setFilter(newFilter);
-
-        console.log("Filter:" + newFilter.minValue + " " + newFilter.maxValue);
 
         const filtered = properties.filter((property) => {
             return (
