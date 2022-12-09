@@ -1,26 +1,23 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { Illustration } from "../assets/Illustration1";
 import { Illustration2 } from "../assets/Illustration2";
 import { Layout } from "../components/Layout";
 import { Context } from "../context";
-import { Coin } from "../assets/Coin";
 import { useRouter } from "next/router";
-import Image from "next/image";
+import { Dropdown } from "../components/Dropdown";
 
 import preview from "../assets/preview.png";
 import { Property } from "../components/Property";
-import Link from "next/link";
+import { Modal } from "../components/Modal";
 
 const Home = () => {
-    const { state, dispatch } = useContext(Context);
     const router = useRouter();
+    const { state, dispatch } = useContext(Context);
 
     useEffect(() => {
-        const user = state.user;
-
-        user.wallet ?? router.push("/login");
-    });
+        state.user.wallet ?? router.push("/login");
+    }, []);
 
     const [properties, setProperties] = useState([
         {
@@ -92,7 +89,7 @@ const Home = () => {
     ]);
 
     return (
-        <Layout>
+        <Layout openModal={() => setModalOpened(!modalOpened)}>
             <div className="flex flex-col justify-center items-center w-full md:w-2/5 md:mx-auto">
                 <div className="w-full mt-4">
                     <Illustration width={300} className={"w-full"} />
@@ -106,7 +103,10 @@ const Home = () => {
                             className="bg-white px-4 py-3 rounded-l-xl shadow-md w-4/5"
                             placeholder="Busque por avenida"
                         />
-                        <button className="bg-black text-white rounded-r-xl py-3 shadow-md w-1/5 text-center">
+                        <button
+                            className="bg-black text-white rounded-r-xl py-3 shadow-md w-1/5 text-center"
+                            onClick={() => router.push("/properties")}
+                        >
                             Buscar
                         </button>
                     </div>
@@ -119,18 +119,34 @@ const Home = () => {
                 </div>
 
                 <div className="flex flex-col items-center flex-1 w-full mt-16">
-                    <p className="text-2xl font-bold">Recomendamos para você</p>
+                    {properties ? (
+                        <>
+                            <p className="text-2xl font-bold">
+                                Recomendamos para você
+                            </p>
 
-                    <div className="flex overflow-x-auto space-x-8 w-full my-4" id="image-slider">
-                        {properties
-                            ? properties.map((property, index) => (
-                                  <Property {...property} key={index} />
-                              ))
-                            : null}
-                    </div>
+                            <div
+                                className="flex overflow-x-auto space-x-8 w-full my-4"
+                                id="image-slider"
+                            >
+                                {properties.map((property, index) => (
+                                    <Property
+                                        {...property}
+                                        key={index}
+                                        shrink={true}
+                                    />
+                                ))}
+                            </div>
+                        </>
+                    ) : null}
 
-                    <button className="bg-black py-2 px-8 text-white rounded-md">
-                        Ver mais propriedades
+                    <button
+                        className="bg-black py-2 px-8 text-white rounded-md"
+                        onClick={() => {
+                            router.push("/properties");
+                        }}
+                    >
+                        Ver {properties ? "mais" : ""} propriedades
                     </button>
                 </div>
 
@@ -212,86 +228,42 @@ const Home = () => {
                             </p>
                         </div>
 
-                        <button className="bg-black py-2 px-8 text-white rounded-md mt-8">
+                        <button
+                            className="bg-black py-2 px-8 text-white rounded-md mt-8"
+                            onClick={() => {
+                                router.push("/properties");
+                            }}
+                        >
                             Ver mais propriedades
                         </button>
                     </div>
                 </div>
 
                 <div className="flex flex-col items-center flex-1 w-full my-16">
-                    <p className="text-2xl font-bold">Perguntas frequentes</p>
+                    <p className="text-2xl font-bold mb-8">
+                        Perguntas frequentes
+                    </p>
 
-                    <div className="flex flex-row bg-white items-center px-4 py-4 mt-6 w-full justify-between cursor-pointer shadow-md rounded-md">
-                        <div className="flex flex-row">
-                            <div className="w-8 h-8 bg-black rounded-[50%] border border-gray-400" />
+                    <Dropdown
+                        question={"O que é um Token?"}
+                        answer={
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit."
+                        }
+                    />
 
-                            <p className="font-bold text-xl ml-4">
-                                O que é um token?
-                            </p>
-                        </div>
+                    <Dropdown
+                        question={"O que é Blockchain?"}
+                        answer={
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit."
+                        }
+                    />
 
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="13"
-                            height="9"
-                            fill="none"
-                            viewBox="0 0 13 9"
-                        >
-                            <path
-                                stroke="#000"
-                                strokeWidth="2"
-                                d="M12 1L6.5 7 1 1"
-                            ></path>
-                        </svg>
-                    </div>
-
-                    <div className="flex flex-row bg-white items-center px-4 py-4 mt-6 w-full justify-between cursor-pointer shadow-md rounded-md">
-                        <div className="flex flex-row">
-                            <div className="w-8 h-8 bg-black rounded-[50%] border border-gray-400" />
-
-                            <p className="font-bold text-xl ml-4">
-                                O que é Blockchain?
-                            </p>
-                        </div>
-
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="13"
-                            height="9"
-                            fill="none"
-                            viewBox="0 0 13 9"
-                        >
-                            <path
-                                stroke="#000"
-                                strokeWidth="2"
-                                d="M12 1L6.5 7 1 1"
-                            ></path>
-                        </svg>
-                    </div>
-
-                    <div className="flex flex-row bg-white items-center px-4 py-4 mt-6 w-full justify-between cursor-pointer shadow-md rounded-md">
-                        <div className="flex flex-row">
-                            <div className="w-8 h-8 bg-black rounded-[50%] border border-gray-400" />
-
-                            <p className="font-bold text-xl ml-4">
-                                Como a Moken funciona?
-                            </p>
-                        </div>
-
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="13"
-                            height="9"
-                            fill="none"
-                            viewBox="0 0 13 9"
-                        >
-                            <path
-                                stroke="#000"
-                                strokeWidth="2"
-                                d="M12 1L6.5 7 1 1"
-                            ></path>
-                        </svg>
-                    </div>
+                    <Dropdown
+                        question={"Como a Moken funciona?"}
+                        answer={
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit."
+                        }
+                    />
                 </div>
             </div>
         </Layout>

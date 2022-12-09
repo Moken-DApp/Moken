@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Coin } from "../assets/Coin";
+import { Coin } from "../assets/icons/Coin";
 
 export const Property = ({
     image,
@@ -11,14 +11,17 @@ export const Property = ({
     details,
     amount,
     id,
+    shrink,
 }) => {
     return (
         <Link
-            className="bg-white border-2 border-black rounded-2xl flex-shrink-0 w-2/3"
+            className={`bg-white border-2 border-black rounded-2xl ${
+                shrink ? "flex-shrink-0 w-2/3" : "w-full"
+            }`}
             href={`/property/${id}`}
         >
             <div className="p-2 flex flex-row justify-between items-center">
-                <Coin width={16} />
+                <Coin width={20} />
 
                 <p>#{id}</p>
             </div>

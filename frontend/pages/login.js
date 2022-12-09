@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../context";
 import { Layout } from "../components/Layout";
-import { Moken } from "../assets/Moken";
+import { Moken } from "../assets/icons/Moken";
 import Link from "next/link";
 
 import { ethers } from "ethers";
@@ -18,10 +18,17 @@ const Login = () => {
         }
     }, []);
 
+    useEffect(() => {
+        setTimeout(() => {
+            state.user.wallet ? router.push("/") : null;
+        }, 1500);
+    }, [router, state.user.wallet]);
+
     const [metamask, setMetamask] = useState(false);
-    const [logginIn, setLogginIn] = useState(false);
+    const [loggingIn, setloggingIn] = useState(false);
 
     const handleLogin = async () => {
+        setloggingIn(true);
         if (metamask) {
             try {
                 await window.ethereum.enable();
@@ -63,10 +70,13 @@ const Login = () => {
                         </h1>
 
                         <button
-                            className="px-4 py-2 text-lg bg-black text-white rounded-md w-fit"
+                            className={`px-4 py-2 text-lg ${
+                                !loggingIn ? "bg-black" : "bg-gray-400"
+                            } text-white rounded-md w-fit`}
                             onClick={handleLogin}
+                            disabled={loggingIn}
                         >
-                            Entrar
+                            {!loggingIn ? "Entrar" : "Entrando..."}
                         </button>
 
                         <Link className="mt-8 mb-2 text-lg" href="/">
