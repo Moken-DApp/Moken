@@ -1,8 +1,8 @@
 export const Coin = ({ width, color, className }) => {
     return (
         <svg
-            width={"16" || width}
-            height={"16" || width}
+            width={width || "32"}
+            height={width || "32"}
             className={className}
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

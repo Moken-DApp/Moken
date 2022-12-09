@@ -2,14 +2,14 @@ export const Close = ({ color, width, className }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            width={"16" || width}
-            height={"16" || width}
+            width={width || "16"}
+            height={width || "16"}
             fill="none"
             viewBox="0 0 14 14"
             className={className}
         >
             <g
-                stroke={"#000" || color}
+                stroke={color || "#000"}
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"

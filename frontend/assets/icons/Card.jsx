@@ -2,8 +2,8 @@ export const Card = ({ width, color, className }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            width={"20" || width}
-            height={"20" || width}
+            width={width || "20"}
+            height={width || "20"}
             fill="none"
             viewBox="0 0 20 20"
             className={className + " " + "feather feather-shopping-card"}

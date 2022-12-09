@@ -2,7 +2,7 @@ export const MetamaskIcon = ({ width }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            width={"24" || width}
+            width={width || "24"}
             viewBox="0 0 212 189"
         >
             <g fill="none" fill-rule="evenodd">

@@ -2,8 +2,8 @@ export const House = ({ width, color, className }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            width={"17" || width}
-            height={"18" || width}
+            width={width || "17"}
+            height={width || "18"}
             fill="none"
             viewBox="0 0 17 18"
             className={className}

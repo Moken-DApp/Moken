@@ -2,8 +2,8 @@ export const Arrow = ({ color, width, className }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            width={"13" || width}
-            height={"14" || width}
+            width={width || "13"}
+            height={width || "14"}
             fill="none"
             viewBox="0 0 13 14"
             className={className}
