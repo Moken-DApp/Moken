@@ -1,4 +1,4 @@
-#  <img width="28px" height="28px" src="https://i.imgur.com/IzcwA3T.png)" alt="cbank-logo"/> Moken - Decentralized App
+#  <img width="28px" height="28px" src="https://user-images.githubusercontent.com/99221221/206879319-23fa7ee3-75ca-4534-98d7-6b1d754c2f12.png" alt="moken-logo"/> Moken - Decentralized App
 ## Moken - HACKATHON WEB3 - Tokenização do Patrimônio da União - 2022
 
 ## [Trailer]()
@@ -19,30 +19,30 @@ A Moken foi criada com o objetivo de se tornar uma plataforma da Secretaria do P
 
 ## Proposta de Valor
 
-###Atribuições do cliente
+### Atribuições do cliente
 - Venda de imóveis em custódia da Secretaria do Patrimônio da União
 
-###Ganhos
+### Ganhos
 - Aumento da liquidez de imóveis em custódia da união
 - Aumento do ganho de proventos sobre o patrimônio
 - Transações mais seguras e com imutabilidade de dados
 
-###Dores
+### Dores
 - Dificuldade de gerar liquidez  a partir dos patrimônios em custódia da União
 - Dificuldade de gerir tantas partes responsáveis pela gestão dos patrimônios
 
-###Aliviadores de dor
+### Aliviadores de dor
 - Centralização das informações em um só lugar
 - Diminuição do ticket de entrada para compra de propriedades
 
-###Criadores de ganhos
+### Criadores de ganhos
 - Transparência das transações
 - Imutabilidade da informação
 - Redução de custos
 - Menor chance de erro humano
 - Rapidez dos processos
 
-###Produtos e Serviços
+### Produtos e Serviços
 - Aplicação descentralizada com funcionamento em rede peer-to-peer e informações armazenadas em blockchain
 
 
