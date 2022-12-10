@@ -15,10 +15,6 @@ const Home = () => {
     const router = useRouter();
     const { state, dispatch } = useContext(Context);
 
-    useEffect(() => {
-        state.user.wallet ?? router.push("/login");
-    }, []);
-
     const [properties, setProperties] = useState([
         {
             image: preview,

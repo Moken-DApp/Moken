@@ -3,7 +3,7 @@ import { user } from "./reducers/user";
 
 // initial state
 const initialState = {
-    user: {},
+    user: {}, admin: {}
 };
 
 // create context

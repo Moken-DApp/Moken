@@ -17,7 +17,7 @@ export const Modal = ({ opened, closeModal }) => {
     const router = useRouter();
 
     return opened ? (
-        <div className="z-100 absolute bg-white flex flex-1 flex-col items-center w-full h-screen py-8 px-4">
+        <div className="z-100 absolute bg-white flex flex-1 flex-col items-center w-full min-h-screen h-full py-8 px-4">
             <div className="w-full md:w-1/3 flex flex-col justify-center items-center">
                 <div className="w-11/12 flex flex-row justify-between mb-24">
                     <Link href={"/"}>

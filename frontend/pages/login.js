@@ -3,14 +3,25 @@ import { Context } from "../context";
 import { Layout } from "../components/Layout";
 import { Moken } from "../assets/icons/Moken";
 import Link from "next/link";
+import { Illustration } from "../assets/Illustration1";
 
 import { ethers } from "ethers";
-import { Illustration } from "../assets/Illustration1";
 import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
+
+import axios from "../axios";
 
 const Login = () => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
+
     const router = useRouter();
     const { state, dispatch } = useContext(Context);
+
+    const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
         if (typeof window.ethereum !== "undefined") {
@@ -27,30 +38,60 @@ const Login = () => {
     const [metamask, setMetamask] = useState(false);
     const [loggingIn, setloggingIn] = useState(false);
 
-    const handleLogin = async () => {
+    const handleLogin = async (data) => {
         setloggingIn(true);
-        if (metamask) {
-            try {
-                await window.ethereum.enable();
 
-                const provider = new ethers.providers.Web3Provider(
-                    window.ethereum
-                );
+        if (!isAdmin) {
+            if (metamask) {
+                try {
+                    await window.ethereum.enable();
 
-                const signer = provider.getSigner();
-                const address = await signer.getAddress();
+                    const provider = new ethers.providers.Web3Provider(
+                        window.ethereum
+                    );
 
-                dispatch({
-                    type: "LOGGED_IN_USER",
-                    payload: { wallet: address },
-                });
+                    const signer = provider.getSigner();
+                    const address = await signer.getAddress();
 
-                router.push("/");
-            } catch (error) {
-                console.error("error", error);
+                    axios
+                        .post("/User/saveWallet")
+                        .then((data) =>
+                            dispatch({
+                                type: "LOGGED_IN_USER",
+                                payload: {
+                                    wallet: address,
+                                    token: data.token,
+                                },
+                            })
+                        )
+                        .catch(() => alert("Requisicao falhou"));
+
+                    router.push("/");
+                } catch (error) {
+                    console.error("error", error);
+                }
             }
+        } else {
+            const { email, password } = data;
+
+            let token, wallet;
+
+            dispatch({
+                type: "LOGGED_IN_ADMIN",
+                payload: {
+                    email: email,
+                    wallet: wallet,
+                    token: "marcelo123inteli",
+                },
+            });
         }
     };
+
+    const toggleAdminLoginForm = () => {
+        setIsAdmin(!isAdmin);
+    };
+
+    // const onSubmit = (data) => console.log(data);
 
     if (metamask) {
         return (
@@ -68,22 +109,89 @@ const Login = () => {
                                 : "Seja bem vindo à sua plataforma de gestão imobiliária"}
                         </h1>
 
-                        <button
-                            className={`px-4 py-2 text-lg ${
-                                !loggingIn ? "bg-black" : "bg-gray-400"
-                            } text-white rounded-md w-fit`}
-                            onClick={handleLogin}
-                            disabled={loggingIn}
-                        >
-                            {!loggingIn ? "Entrar" : "Entrando..."}
-                        </button>
+                        {isAdmin ? (
+                            <form onSubmit={handleSubmit(handleLogin)}>
+                                <div className="w-4/5 mb-4">
+                                    <input
+                                        type={"email"}
+                                        placeholder="email@spu.gov.br"
+                                        {...register("email", {
+                                            required: "Email obrigatório",
+                                            pattern: {
+                                                value: /^[A-Z0-9._%+-]+@spu.gov.br$/i,
+                                                message:
+                                                    "invalid email address",
+                                            },
+                                        })}
+                                        className={`w-full px-4 py-2 text-lg rounded-lg border shadow-lg ${
+                                            errors.email
+                                                ? "border-red-500"
+                                                : "border-[rgba(0,0,0,0.25)]"
+                                        }`}
+                                    />
+                                    {errors.email && (
+                                        <p className="text-red-500 text-sm">
+                                            {errors.email.message}
+                                        </p>
+                                    )}
+                                </div>
 
-                        <Link className="mt-8 mb-2 text-lg" href="/">
+                                <div className="w-4/5 mb-4">
+                                    <input
+                                        type={"password"}
+                                        placeholder="Sua senha de acesso"
+                                        {...register("password", {
+                                            required: "Senha obrigatória",
+                                        })}
+                                        className={`w-full px-4 py-2 text-lg rounded-lg border shadow-lg ${
+                                            errors.email
+                                                ? "border-red-500"
+                                                : "border-[rgba(0,0,0,0.25)]"
+                                        }`}
+                                    />
+                                    {errors.email && (
+                                        <p className="text-red-500 text-sm">
+                                            Senha obrigatória!
+                                        </p>
+                                    )}
+                                </div>
+
+                                <input
+                                    type={"submit"}
+                                    value={loggingIn ? "Entrando" : "Entrar"}
+                                    className={
+                                        "bg-black px-4 py-2 text-white rounded-lg"
+                                    }
+                                />
+                            </form>
+                        ) : (
+                            <button
+                                className={`px-4 py-2 text-lg ${
+                                    !loggingIn ? "bg-black" : "bg-gray-400"
+                                } text-white rounded-md w-fit`}
+                                onClick={handleLogin}
+                                disabled={loggingIn}
+                            >
+                                {!loggingIn ? "Entrar" : "Entrando..."}
+                            </button>
+                        )}
+
+                        <button
+                            className="mt-8 mb-2 text-lg text-start"
+                            onClick={() =>
+                                dispatch({ type: "LOGGED_OUT_USER" })
+                            }
+                        >
                             Entrar com outra conta {">"}
-                        </Link>
-                        <Link className="text-lg" href="/">
-                            Acesso para funcionários Públicos {">"}
-                        </Link>
+                        </button>
+                        <button
+                            className="text-lg text-start"
+                            onClick={toggleAdminLoginForm}
+                        >
+                            {!isAdmin
+                                ? "Acesso para funcionários Públicos >"
+                                : "Acessar como usuário >"}
+                        </button>
                     </div>
 
                     <div className="hidden md:w-2/3 border border-blue-500">
