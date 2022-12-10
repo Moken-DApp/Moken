@@ -6,7 +6,7 @@ const Propertie = new propertie.Propertie()
 
 const createPropertie = async (req, res) => {
     //Pega as infos da requisição
-    const { title, currentPrice, type, owner } = req.body
+    const { linkImage, linkDoc, description, type, address, especification } = req.body
     //Valida se algum paremetro é inválido
     const errors = validationResult(req)
 
@@ -18,7 +18,7 @@ const createPropertie = async (req, res) => {
 
     try {
         //Tratamento das respostas do método da classe
-        const result = await Propertie.createPropertie(title, currentPrice, type, owner);
+        const result = await Propertie.createPropertie(linkImage, linkDoc, description, type, address, especification);
         res.send(result)
     } catch (err) {
         res.status(500).send(err.message)

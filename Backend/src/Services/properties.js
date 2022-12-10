@@ -1,26 +1,37 @@
 const { v4: uuid } = require('uuid');
 require('dotenv').config();
 
+import * as IPFS from 'ipfs-core'
+
 const { PrismaClient } = require('@prisma/client')
 
 const prisma = new PrismaClient();
 
 class Propertie {
-    async createPropertie(title, currentPrice, type, owner) {
-        console.log(title, currentPrice, type, owner);
-    
+    async createPropertie(linkImage, linkDoc, description, type, address, especification) {
+        const object = {
+            linkDoc: linkDoc,
+            linkImage: linkImage,
+            description: description,
+            type: type,
+            address: address,
+            especification: especification
+        }
+
+        let generatedLink = ''
+
         try {
-            const result = await prisma.propetie.create({
-                data: {
-                    id: uuid(),
-                    title: title,
-                    currentPrice: parseFloat(currentPrice),
-                    type: type,
-                    owner: owner,
-                }
-            })
-            return result;
-        } catch (err){
+            const ipfs = await IPFS.create()
+            const { cid } = await ipfs.add(JSON.stringify(object))
+
+            generatedLink = `https://ipfs.io/ipfs/${cid}`
+        } catch {
+            throw new Error(err.message)
+        }
+
+        try {
+            
+        } catch (err) {
             throw new Error(err.message);
         }
     }

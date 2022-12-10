@@ -8,10 +8,12 @@ const propertieController = require("../Controllers/properties.js");
 //Criar registro de palestra e todos os alunos que participaram
 router.post(
     "/createPropertie",
-    [body("title", "Titulo da Propriedade é necessário").exists({ checkFalsy: true })],
-    [body("currentPrice", "Preço atual da Propriedade é necessário").exists({ checkFalsy: true })],
+    [body("linkImage", "Titulo da Propriedade é necessário").exists({ checkFalsy: true })],
+    [body("linkDoc", "Preço atual da Propriedade é necessário").exists({ checkFalsy: true })],
+    [body("description", "Descrição da Propriedade é necessário").exists({ checkFalsy: true })],
     [body("type", "Tipo da Propriedade é necessário").exists({ checkFalsy: true })],
-    [body("owner", "Dono da Propriedade é necessário").exists({ checkFalsy: true })],
+    [body("address", "Endereço da Propriedade é necessário").exists({ checkFalsy: true })],
+    [body("especifications", "Especificação da Propriedade é necessário").exists({ checkFalsy: true })],
     propertieController.createPropertie
 );
 
