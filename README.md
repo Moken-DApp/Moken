@@ -78,7 +78,7 @@ A Moken foi criada com o objetivo de se tornar uma plataforma da Secretaria do P
 
  - [x] Eu, como funcionário da SPU, quero poder acessar o menu lateral 
  
-## Technologias
+## Tecnologias
 
  Esse projeto foi desenvolvido usando as seguintes tecnologias:
  
@@ -94,7 +94,7 @@ A Moken foi criada com o objetivo de se tornar uma plataforma da Secretaria do P
  - HardHat
  - Solidity
 
-## License
+## Licença
 
 Distributed under the MIT License. See  `LICENSE`  for more information.
 
