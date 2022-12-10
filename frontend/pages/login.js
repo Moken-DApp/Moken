@@ -41,6 +41,8 @@ const Login = () => {
     const handleLogin = async (formData) => {
         setloggingIn(true);
 
+        window.sessionStorage.clear();
+
         if (!isAdmin) {
             if (metamask) {
                 try {
@@ -67,10 +69,10 @@ const Login = () => {
                                     token: data.token,
                                 },
                             });
+
+                            router.push("/");
                         })
                         .catch(() => alert("Requisicao falhou"));
-
-                    router.push("/");
 
                     setloggingIn(false);
                 } catch (error) {
@@ -90,11 +92,11 @@ const Login = () => {
                     .then((data) => {
                         console.log(data.data);
                         window.sessionStorage.setItem("token", data.data.token);
-                        window
+                        window.sessionStorage.setItem("isAdmin", true);
+
+                        router.push("/");
                     })
                     .catch((err) => setloggingIn(false) && console.log(err));
-
-                router.push("/");
             } catch (err) {
                 console.error(err);
             }

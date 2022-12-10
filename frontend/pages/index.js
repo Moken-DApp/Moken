@@ -96,11 +96,11 @@ const Home = () => {
 
                     <div className="flex flex-1 flex-row w-5/6 my-4">
                         <input
-                            className="bg-white px-4 py-3 rounded-l-xl shadow-md w-4/5"
+                            className="bg-white px-4 py-3 rounded-l-full text-sm shadow-md w-4/5"
                             placeholder="Busque por avenida"
                         />
                         <button
-                            className="bg-black text-white rounded-r-xl py-3 shadow-md w-1/5 text-center"
+                            className="bg-black text-white rounded-r-full text-sm py-3 shadow-md w-1/5 text-center"
                             onClick={() => router.push("/properties")}
                         >
                             Buscar
@@ -154,13 +154,13 @@ const Home = () => {
                     <p className="text-2xl font-bold w-2/3 text-center">
                         Por que investir com a Moken?
                     </p>
-                    <p className="font-bold text-sm">
+                    {/* <p className="font-bold text-sm">
                         Conheça os serviços que você encontra na Moken:
                     </p>
 
-                    <div className="my-8">Slider</div>
+                    <div className="my-8">Slider</div> */}
 
-                    <div className="flex flex-col items-center text-center">
+                    <div className="flex flex-col items-center text-center mt-4">
                         <p className="text-xs font-bold uppercase">
                             Passo a passo
                         </p>

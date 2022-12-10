@@ -16,13 +16,9 @@ export const Layout = ({ title, children, navbar = true, footer = true }) => {
 
     const { state, dispatch } = useContext(Context);
 
-    const verifyLoggedIn = async () => {
-        let token = window.sessionStorage.getItem("token");
-
-        console.log(token);
-
+    const verifyLoggedIn = async (token, isAdmin) => {
         state.user
-            ? state.user.isAdmin
+            ? isAdmin
                 ? await axios
                       .get("/Admin/Infos", {
                           headers: {
@@ -30,7 +26,6 @@ export const Layout = ({ title, children, navbar = true, footer = true }) => {
                           },
                       })
                       .then((data) => {
-                          console.log(data);
                           dispatch({
                               type: "LOGGED_IN_USER",
                               payload: {
@@ -40,10 +35,11 @@ export const Layout = ({ title, children, navbar = true, footer = true }) => {
                                   isAdmin: true,
                               },
                           });
+
+                          console.log(data, token, isAdmin);
                       })
                       .catch((err) => router.push("/login"))
-                : console.log(state.user) &&
-                  (await axios
+                : await axios
                       .get("/User/verifyWallet", {
                           headers: {
                               Authorization: `Bearer ${token}`,
@@ -56,13 +52,19 @@ export const Layout = ({ title, children, navbar = true, footer = true }) => {
                                   wallet: data.data,
                               },
                           });
+                          console.log(data.data, token);
                       })
-                      .catch((err) => router.push("/login")))
+                      .catch((err) => router.push("/login"))
             : null;
     };
 
+    let token, isAdmin;
+
     useEffect(() => {
-        state.user.wallet ?? verifyLoggedIn();
+        token = window.sessionStorage.getItem("token");
+        isAdmin = window.sessionStorage.getItem("isAdmin");
+
+        state.user.wallet ?? verifyLoggedIn(token, isAdmin);
     }, []);
 
     return (
@@ -81,7 +83,10 @@ export const Layout = ({ title, children, navbar = true, footer = true }) => {
                 }`}
             >
                 {navbar ? (
-                    <Navbar openModal={() => setModalOpened(true)} />
+                    <Navbar
+                        openModal={() => setModalOpened(true)}
+                        isAdmin={isAdmin}
+                    />
                 ) : null}
 
                 {children}
