@@ -9,7 +9,13 @@ import { useRouter } from "next/router";
 
 import axios from "../axios";
 
-export const Layout = ({ title, children, navbar = true, footer = true }) => {
+export const Layout = ({
+    title,
+    children,
+    navbar = true,
+    footer = true,
+    className = "",
+}) => {
     const [modalOpened, setModalOpened] = useState(false);
 
     const router = useRouter();
@@ -78,9 +84,11 @@ export const Layout = ({ title, children, navbar = true, footer = true }) => {
                 opened={modalOpened}
             />
             <main
-                className={`flex flex-col px-4 moderat ${
-                    modalOpened ? "hidden" : ""
-                }`}
+                className={
+                    `flex flex-col px-4 moderat min-h-screen ${
+                        modalOpened ? "hidden" : ""
+                    } ` + className
+                }
             >
                 {navbar ? (
                     <Navbar

@@ -204,17 +204,24 @@ export const Modal = ({ opened, closeModal }) => {
                             <MetamaskIcon />
                         </div>
                         <div className="border-t-none border-2 border-black rounded-b-2xl flex flex-col flex-1 justify-center items-center px-4 py-8 shadow-xl">
-                            <div className="w-16 h-16 bg-black rounded-full shadow-lg mb-8"></div>
+                            <div
+                                className="h-[3rem] w-[3rem] mb-8 bg-black rounded-full border-0 border-gray-600"
+                                ref={ref}
+                            ></div>
 
                             <p
-                                className="overflow-hidden truncate w-3/4 underline font-semibold"
+                                className="w-full underline text-md font-semibold text-center"
                                 onClick={() =>
                                     navigator.clipboard.writeText(
                                         state.user.wallet
                                     )
                                 }
                             >
-                                {state.user.wallet}
+                                {state.user.wallet.slice(0, 6) +
+                                    "..." +
+                                    state.user.wallet.slice(
+                                        state.user.wallet.length - 4
+                                    )}
                             </p>
                         </div>
                     </div>
