@@ -6,44 +6,97 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient();
 
 class Offer {
-    async createOffer(idPropertie, wallet, price, brlPrice) {
+    async createOffer(tokenAddress, type, price, accessWallet) {
+
+        if (type == "private") {
+            if(!accessWallet) {
+                throw new Error("Endereço da carteira é necessário");
+            }
+        } else {
+            accessWallet = ""
+        }
 
         //Verifica se a propriedade existe
-        const existsProp = await prisma.propetie.findUnique({
-            where: {id: idPropertie}
-        })
+        //Chama contrato .sol
 
-        if (!existsProp) {
-            throw new Error("Propriedade não existe");
-        }
-
-        //Verifica se a carteira que quer fazer oferta é diferente da do proprietário
-        if (existsProp.owner === wallet) {
-            throw new Error("Proprietário não pode fazer oferta");
-        }
-
-        //Verifica se a casa está a venda
-        if(existsProp.onSale === false) {
-            throw new Error("Propriedade não está a venda");
-        }
-
-        //Verifica se a casa já foi vendida
-        if(existsProp.sold === true) {
-            throw new Error("Propriedade já foi vendida");
-        }
-
-        //Caso tudo tenha sido respeitado cria-se a oferta para aquela casa
+        //Caso tudo tenha sido respeitado cria-se a oferta para aquela propriedade
         try {
             const result = await prisma.offer.create({
                 data: {
-                    propertyId: idPropertie,
-                    wallet: wallet,
+                    tokenAddress: tokenAddress,
+                    type: type,
                     price: parseFloat(price),
-                    brlPrice: parseFloat(brlPrice),
+                    accessWallet: accessWallet,
+                    id: uuid()
                 }
             })
             return result;
-        } catch (err){
+        } catch (err) {
+            throw new Error(err.message);
+        }
+    }
+
+    async getOfferByTokenAddress(tokenAddress) {
+        try {
+            const result = await prisma.offer.findMany({
+                where: {
+                    tokenAddress: tokenAddress
+                }
+            })
+            return result;
+        } catch (err) {
+            throw new Error(err.message);
+        }
+    }
+
+    async getOfferById(id) {
+        try {
+            const result = await prisma.offer.findUnique({
+                where: {
+                    id: id
+                }
+            })
+            return result;
+        } catch (err) {
+            throw new Error(err.message);
+        }
+    }
+
+    async getAllPublicOffers() {
+        try {
+            const result = await prisma.offer.findMany({
+                where: {
+                    type: "public"
+                }
+            })
+            return result;
+        } catch (err) {
+            throw new Error(err.message);
+        }
+    }
+
+    async deleteOfferById(id) {
+        try {
+            const result = await prisma.offer.delete({
+                where: {
+                    id: id
+                }
+            })
+            return result;
+        } catch (err) {
+            throw new Error(err.message);
+        }
+    }
+
+    async deleteOfferByTokenAddress(tokenAddress) {
+        try {
+            const result = await prisma.offer.deleteMany({
+                where: {
+                    tokenAddress: tokenAddress
+                }
+            })
+            return result;
+        } catch (err) {
             throw new Error(err.message);
         }
     }
