@@ -24,10 +24,7 @@ class User {
 
         //Valida se o token está preenchido
         if (!authToken) {
-            res.status(401).json({
-                message: "Você precisa de um token para acessar essa ação"
-            })
-            return
+            throw new Error("Você precisa de um token para acessar essa ação")
         }
 
         //Desestrutura o header "Bearer 'token'"

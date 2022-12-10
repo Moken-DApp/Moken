@@ -46,6 +46,7 @@ model Admin {
   name            String   @unique
   email           String   @unique
   password        String
+  wallet          String   @unique  @default("0x0000000000000000000000000000000000000000")
 
   @@map("admins")
 }

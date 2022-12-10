@@ -29,6 +29,5 @@ router.get(
     unsureAdmin.unsureAdmin,
     adminController.Infos
 )
-
 //Exporta o ROUTER
 module.exports = router;

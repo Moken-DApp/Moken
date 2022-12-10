@@ -1,9 +1,9 @@
-import { useState, useEffect, useReducer, createContext } from "react";
+import { useReducer, createContext } from "react";
 import { user } from "./reducers/user";
 
 // initial state
 const initialState = {
-    user: {}, admin: {}
+    user: {},
 };
 
 // create context

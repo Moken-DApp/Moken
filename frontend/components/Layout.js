@@ -16,30 +16,54 @@ export const Layout = ({ title, children, navbar = true, footer = true }) => {
 
     const { state, dispatch } = useContext(Context);
 
-    useEffect(() => {
+    const verifyLoggedIn = async () => {
         let token = window.sessionStorage.getItem("token");
+
         console.log(token);
 
-        state.user.wallet ??
-            axios
-                .get("http://localhost:3001/User/verifyWallet", {
-                    Headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                })
-                .then((data) => {
-                    console.log(data);
-                    dispatch({
-                        type: "LOGGED_IN_USER",
-                        payload: {
-                            wallet: data.wallet,
-                        },
-                    });
-                });
-        // .catch(() => router.push("/login"));
-    }, []);
+        state.user
+            ? state.user.isAdmin
+                ? await axios
+                      .get("/Admin/Infos", {
+                          headers: {
+                              Authorization: `Bearer ${token}`,
+                          },
+                      })
+                      .then((data) => {
+                          console.log(data);
+                          dispatch({
+                              type: "LOGGED_IN_USER",
+                              payload: {
+                                  name: data.data.name,
+                                  email: data.data.email,
+                                  wallet: data.data.wallet,
+                                  isAdmin: true,
+                              },
+                          });
+                      })
+                      .catch((err) => router.push("/login"))
+                : console.log(state.user) &&
+                  (await axios
+                      .get("/User/verifyWallet", {
+                          headers: {
+                              Authorization: `Bearer ${token}`,
+                          },
+                      })
+                      .then((data) => {
+                          dispatch({
+                              type: "LOGGED_IN_USER",
+                              payload: {
+                                  wallet: data.data,
+                              },
+                          });
+                      })
+                      .catch((err) => router.push("/login")))
+            : null;
+    };
 
-    console.log(modalOpened);
+    useEffect(() => {
+        state.user.wallet ?? verifyLoggedIn();
+    }, []);
 
     return (
         <div>

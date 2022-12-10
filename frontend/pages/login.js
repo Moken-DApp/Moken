@@ -38,7 +38,7 @@ const Login = () => {
     const [metamask, setMetamask] = useState(false);
     const [loggingIn, setloggingIn] = useState(false);
 
-    const handleLogin = async (data) => {
+    const handleLogin = async (formData) => {
         setloggingIn(true);
 
         if (!isAdmin) {
@@ -54,44 +54,57 @@ const Login = () => {
                     const address = await signer.getAddress();
 
                     axios
-                        .post("/User/saveWallet")
-                        .then((data) =>
+                        .post("/User/saveWallet", {
+                            wallet: address,
+                        })
+                        .then((data) => {
+                            window.sessionStorage.setItem("token", data.data);
+
                             dispatch({
                                 type: "LOGGED_IN_USER",
                                 payload: {
                                     wallet: address,
                                     token: data.token,
                                 },
-                            })
-                        )
+                            });
+                        })
                         .catch(() => alert("Requisicao falhou"));
 
                     router.push("/");
+
+                    setloggingIn(false);
                 } catch (error) {
                     console.error("error", error);
+                    setloggingIn(false);
                 }
             }
         } else {
-            const { email, password } = data;
+            const { email, password } = formData;
 
-            let token, wallet;
+            try {
+                axios
+                    .post("/Admin/Login", {
+                        email: email,
+                        senha: password,
+                    })
+                    .then((data) => {
+                        console.log(data.data);
+                        window.sessionStorage.setItem("token", data.data.token);
+                    })
+                    .catch((err) => setloggingIn(false) && console.log(err));
 
-            dispatch({
-                type: "LOGGED_IN_ADMIN",
-                payload: {
-                    email: email,
-                    wallet: wallet,
-                    token: "marcelo123inteli",
-                },
-            });
+                router.push("/");
+            } catch (err) {
+                console.error(err);
+            }
+
+            console.log(formData);
         }
     };
 
     const toggleAdminLoginForm = () => {
         setIsAdmin(!isAdmin);
     };
-
-    // const onSubmit = (data) => console.log(data);
 
     if (metamask) {
         return (
@@ -100,14 +113,26 @@ const Login = () => {
                     <div className="flex flex-col my-auto w-full md:w-1/3 md:mx-auto">
                         <Moken />
 
-                        <h1 className="text-2xl my-8">
-                            {state.user.wallet
-                                ? `Que bom te ver \n por aqui, ${state.user.wallet.slice(
-                                      0,
-                                      7
-                                  )}...!`
+                        <h1 className="text-2xl mt-8">
+                            {!state.user.isAdmin
+                                ? state.user.wallet
+                                    ? `Que bom te ver \n por aqui, ${state.user.wallet.slice(
+                                          0,
+                                          7
+                                      )}...!`
+                                    : "Seja bem vindo à sua plataforma de gestão imobiliária"
                                 : "Seja bem vindo à sua plataforma de gestão imobiliária"}
                         </h1>
+
+                        {isAdmin ? (
+                            <div className="mb-4">
+                                <p className="text-gray-500 text-lg">
+                                    Faça login com sua conta da Secretaria do
+                                    Patrimônio da União para acessar a
+                                    plataforma
+                                </p>
+                            </div>
+                        ) : null}
 
                         {isAdmin ? (
                             <form onSubmit={handleSubmit(handleLogin)}>
@@ -117,11 +142,11 @@ const Login = () => {
                                         placeholder="email@spu.gov.br"
                                         {...register("email", {
                                             required: "Email obrigatório",
-                                            pattern: {
-                                                value: /^[A-Z0-9._%+-]+@spu.gov.br$/i,
-                                                message:
-                                                    "invalid email address",
-                                            },
+                                            // pattern: {
+                                            //     value: /^[A-Z0-9._%+-]+@spu.gov.br$/i,
+                                            //     message:
+                                            //         "invalid email address",
+                                            // },
                                         })}
                                         className={`w-full px-4 py-2 text-lg rounded-lg border shadow-lg ${
                                             errors.email
@@ -140,6 +165,7 @@ const Login = () => {
                                     <input
                                         type={"password"}
                                         placeholder="Sua senha de acesso"
+                                        disabled={loggingIn}
                                         {...register("password", {
                                             required: "Senha obrigatória",
                                         })}
@@ -158,17 +184,17 @@ const Login = () => {
 
                                 <input
                                     type={"submit"}
-                                    value={loggingIn ? "Entrando" : "Entrar"}
-                                    className={
-                                        "bg-black px-4 py-2 text-white rounded-lg"
-                                    }
+                                    value={loggingIn ? "Entrando..." : "Entrar"}
+                                    className={`px-4 py-2 text-lg ${
+                                        !loggingIn ? "bg-black" : "bg-gray-400"
+                                    } text-white rounded-md w-fit`}
                                 />
                             </form>
                         ) : (
                             <button
                                 className={`px-4 py-2 text-lg ${
                                     !loggingIn ? "bg-black" : "bg-gray-400"
-                                } text-white rounded-md w-fit`}
+                                } text-white rounded-md w-fit mt-8`}
                                 onClick={handleLogin}
                                 disabled={loggingIn}
                             >

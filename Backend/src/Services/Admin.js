@@ -93,8 +93,11 @@ class Admin {
                     email: true,
                     createdAt: true,
                     id: true,
+                    wallet: true
                 }
             })
+
+            infos.isAdmin = true;
 
             return infos;
         } catch (err) {
