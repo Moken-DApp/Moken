@@ -90,6 +90,7 @@ const Login = () => {
                     .then((data) => {
                         console.log(data.data);
                         window.sessionStorage.setItem("token", data.data.token);
+                        window
                     })
                     .catch((err) => setloggingIn(false) && console.log(err));
 
