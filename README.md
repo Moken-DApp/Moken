@@ -93,6 +93,7 @@ A Moken foi criada com o objetivo de se tornar uma plataforma da Secretaria do P
  - Metamask
  - HardHat
  - Solidity
+ - IPFS (InterPlanetary File System)
 
 ## Licença
 
