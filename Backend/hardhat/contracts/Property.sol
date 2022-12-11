@@ -12,6 +12,7 @@ contract Property is ERC721 {
     mapping(uint => address) public propetiesERC20;
     mapping(uint => string) public tokenURIs;
     mapping(string => string) public tokenURIByRIP;
+    mapping(string => address) public tokenAddressByRIP;
 
     using Counters for Counters.Counter;
     Counters.Counter _tokenIds;
@@ -27,15 +28,10 @@ contract Property is ERC721 {
         _;
     }
 
-    function createProperty(
-        string memory _uri,
-        string memory _rip
-    ) external returns (address) {
+    function createProperty(string memory _uri, string memory _rip) external {
         _mint(msg.sender, _tokenIds.current());
         _setTokenURI(_tokenIds.current(), _uri, _rip);
         _tokenIds.increment();
-
-        return address(this);
     }
 
     // Mints all tokens - 1 (?*10...) for each square meter
@@ -69,6 +65,13 @@ contract Property is ERC721 {
         return tokenURIByRIP[rip];
     }
 
+    // Get this token address by rip
+    function getTokenAddressByRIP(
+        string memory rip
+    ) public view returns (address) {
+        return tokenAddressByRIP[rip];
+    }
+
     // Sets the token uri for the specific token
     function _setTokenURI(
         uint _tokenId,
@@ -77,6 +80,7 @@ contract Property is ERC721 {
     ) internal {
         tokenURIs[_tokenId] = _uri;
         tokenURIByRIP[rip] = _uri;
+        tokenAddressByRIP[rip] = propetiesERC20[_tokenId];
     }
 
     function tokenURI(

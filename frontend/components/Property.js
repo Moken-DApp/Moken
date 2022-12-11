@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Coin } from "../assets/icons/Coin";
 
 export const Property = ({
-    image,
+    imageUri,
     category,
     price,
     address,
@@ -13,20 +13,28 @@ export const Property = ({
     rip,
     shrink,
 }) => {
+    console.log(imageUri);
     return (
-        <Link
+        <div
             className={`bg-white border-2 border-black rounded-2xl ${
                 shrink ? "flex-shrink-0 w-2/3" : "w-full"
             }`}
-            href={`/propriedades/${rip}`}
+            // href={`/propriedades/${rip}`}
         >
             <div className="p-2 flex flex-row justify-between items-center">
                 <Coin wripth={20} />
 
-                <p>#{rip}</p>
+                <p># {rip}</p>
             </div>
 
-            <Image src={image} alt="property" />
+            <Image
+                src={imageUri}
+                loader={() => imageUri}
+                alt="Picture of the author"
+                width={300}
+                height={200}
+                layout="responsive"
+            />
 
             <div className="p-4">
                 <p className="text-sm text-gray-600">{category}</p>
@@ -41,10 +49,10 @@ export const Property = ({
                     <span>{area}m² </span>
                     {details.map((detail) => `${detail} `)}
                 </p>
-                <p className="italic font-bold text-sm">
+                {/* <p className="italic font-bold text-sm">
                     Esse token representa {amount * 100}% da propriedade total.
-                </p>
+                </p> */}
             </div>
-        </Link>
+        </div>
     );
 };

@@ -3,35 +3,55 @@ import { Property } from "../../components/Property";
 import { Coin } from "../../assets/icons/Coin";
 
 import preview from "../../assets/preview.png";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "../../axios";
+import { useRouter } from "next/router";
 
 const PropertyPage = ({ property }) => {
+    //get property from the getServerSideProps
+    const [propertyData, setPropertyData] = useState(property);
+
+    const router = useRouter();
+
     useEffect(() => {
-        console.log(property);
-    }, []);
+        if (propertyData === null) {
+            router.push("/404");
+        }
+
+        console.log(propertyData);
+    }, [propertyData]);
 
     return (
         <Layout>
             <div className="flex flex-col justify-center items-center w-full md:w-2/5 md:mx-auto pb-8">
                 <div className="w-11/12 mt-4">
-                    <p className="text-xl font-bold">#9701.23456.500-1</p>
+                    <p className="text-xl font-bold">
+                        # {propertyData.specification.rip || propertyData.rip}
+                    </p>
                     <p className="text-xs">
-                        {"Propriedade da União Federal (RIP: 9701 23456.500-1)"}
+                        {`Propriedade da União Federal (RIP: ${
+                            propertyData.specification.rip || propertyData.rip
+                        }})`}
                     </p>
                 </div>
                 <div className="w-11/12 mt-8 flex justify-center items-center">
                     <Property
-                        image={preview}
+                        imageUri={propertyData.linkImage}
                         category={"Apartamento"}
-                        price={145630.46}
-                        address={
-                            "Av. Prof. Almeida Prado, 520 - Butantã, São Paulo - SP, 05508-070"
-                        }
-                        area={342}
-                        details={["6 quartos", "2 vagas"]}
-                        amount={1 / 4}
-                        rip={"9701.23456.500-1"}
+                        price={propertyData.price || "150.000"}
+                        address={`${propertyData.address.street}, ${
+                            propertyData.address.neighbourhood ||
+                            propertyData.address.neighborhood
+                        }, 
+                        ${propertyData.address.city}, ${
+                            propertyData.address.state
+                        }, ${propertyData.address.cep}`}
+                        area={propertyData.specification.area}
+                        details={[
+                            `${propertyData.specification.rooms} quartos`,
+                            `${propertyData.specification.parkingPlaces} vagas`,
+                        ]}
+                        rip={propertyData.specification.rip || propertyData.rip}
                     />
                 </div>
                 <div className="w-11/12 mt-8 flex justify-center items-center">
@@ -50,20 +70,16 @@ const PropertyPage = ({ property }) => {
                                 Jardim Alameda Paulista 432, São Paulo, Brasil
                             </p>
                             <p className="text-xs font-bold text-gray-600">
-                                342m² • 6 quartos • 2 vagas
+                                {
+                                    (propertyData.specification.area,
+                                    propertyData.specification.rooms,
+                                    propertyData.specification.parkingPlaces)
+                                }
                             </p>
                         </div>
                         <div className="p-2 flex flex-col gap-2 ml-2 mt-4 mb-2">
                             <p className="text-xs font-bold">
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua.
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua.
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua.
+                                {propertyData.description}
                             </p>
                         </div>
                     </div>
@@ -179,22 +195,20 @@ const PropertyPage = ({ property }) => {
     );
 };
 
-export const getServerSideProps = async (context) => {
-    const { id } = context.params;
+export async function getServerSideProps(context) {
+    const { id } = context.query;
 
-    const res = await axios
-        .get(`http://10.254.17.173:3001/Propertie/getProperty/${id}`)
+    let property = await axios
+        .get(`/Propertie/getPropertyMetadata/${id}`)
         .then((res) => {
-            console.log(res.data);
             return res.data;
-        })
-        .catch((err) => console.error(err));
+        });
 
     return {
         props: {
-            property: res,
+            property: property,
         },
     };
-};
+}
 
 export default PropertyPage;
