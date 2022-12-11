@@ -11,6 +11,7 @@ contract Property is ERC721 {
 
     mapping(uint => address) public propetiesERC20;
     mapping(uint => string) public tokenURIs;
+    mapping(string => string) public tokenURIByRIP;
 
     using Counters for Counters.Counter;
     Counters.Counter _tokenIds;
@@ -26,9 +27,9 @@ contract Property is ERC721 {
         _;
     }
 
-    function createProperty(string memory _uri) external {
+    function createProperty(string memory _uri, string memory _rip) external {
         _mint(msg.sender, _tokenIds.current());
-        _setTokenURI(_tokenIds.current(), _uri);
+        _setTokenURI(_tokenIds.current(), _uri, _rip);
         _tokenIds.increment();
     }
 
@@ -45,16 +46,37 @@ contract Property is ERC721 {
         propetiesERC20[_idProperty] = newTokenProperty;
     }
 
-    // Min
+    // Get all tokens
+    function getTokenURIs() public view returns (string[] memory) {
+        string[] memory uris = new string[](_tokenIds.current());
+
+        for (uint i = 0; i < _tokenIds.current(); i++) {
+            uris[i] = tokenURIs[i];
+        }
+
+        return uris;
+    }
+
+    // Get token uri by id
+    function getTokenURIByRIP(
+        string memory rip
+    ) public view returns (string memory) {
+        return tokenURIByRIP[rip];
+    }
 
     // Sets the token uri for the specific token
-    function _setTokenURI(uint _tokenId, string memory _uri) internal {
+    function _setTokenURI(
+        uint _tokenId,
+        string memory _uri,
+        string memory rip
+    ) internal {
         tokenURIs[_tokenId] = _uri;
+        tokenURIByRIP[rip] = _uri;
     }
 
     function tokenURI(
         uint256 _id
-    ) public override view returns (string memory) {
+    ) public view override returns (string memory) {
         return tokenURIs[_id];
     }
 }

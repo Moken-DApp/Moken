@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "C:\\Users\\Inteli\\dev\\Moken\\Backend\\hardhat\\contracts\\Property.sol": {
-      "lastModificationDate": 1670759364931,
-      "contentHash": "977d9684521235cdd21fcf92b90f0f39",
+      "lastModificationDate": 1670766139140,
+      "contentHash": "ad540231bdfc9dfe9e978561ecb11af3",
       "sourceName": "contracts/Property.sol",
       "solcConfig": {
         "version": "0.8.4",
