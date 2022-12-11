@@ -140,16 +140,6 @@ class Propertie {
     }
 
     async getProperties() {
-        // try {
-        //     const result = await prisma.propetie.findMany({
-        //         include: {
-        //             offers: true,
-        //         },
-        //     });
-        //     return result;
-        // } catch (err) {
-        //     throw new Error(err.message);
-        // }
         try {
             const result = await contracts.getProperties();
             return result;

@@ -66,17 +66,6 @@ router.get(
     propertieController.getProperties
 )
 
-// router.delete(
-//     "/deletePropertie/:id",
-//     [param("id", "ID da Propriedade é necessário").exists({ checkFalsy: true })],
-//     propertieController.deletePropertie
-// );
-
-// router.put(
-//     "/updatePropertie/:id",
-//     propertieController.updatePropertie
-// );
-
 router.get("/getProperties", propertieController.getProperties);
 
 //Exporta o ROUTER
