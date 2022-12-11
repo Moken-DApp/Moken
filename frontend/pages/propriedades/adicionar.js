@@ -109,6 +109,7 @@ const Adicionar = () => {
             const documentHash = await sendFileToIPFS(document[0]);
 
             const property = {
+                rip,
                 linkImage: imageHash,
                 linkDoc: documentHash,
                 type,
@@ -121,7 +122,6 @@ const Adicionar = () => {
                     cep,
                 },
                 specifications: {
-                    rip,
                     area,
                     rooms,
                     parkingPlaces,
@@ -130,7 +130,7 @@ const Adicionar = () => {
 
             await axios
                 .post(
-                    "http://10.254.17.16:3001/Propertie/createPropertie",
+                    "http://10.254.17.173:3001/Propertie/createPropertie",
                     property
                 )
                 .then((data) => {
