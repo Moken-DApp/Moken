@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 require("express-async-errors");
 require("dotenv").config();
 var bodyParser = require("body-parser");
@@ -9,24 +9,23 @@ app.use(cors());
 
 app.use(express.json()); //Irá suportar JSON
 app.use(
-  bodyParser.urlencoded({
-    // Irá suportar urlenconded
-  })
+    bodyParser.urlencoded({
+        // Irá suportar urlenconded
+    })
 );
 
 const PORT = process.env.PORT || 3001;
 
-const propetieRouter = require('./Routes/properties.js');
-const offerRouter = require('./Routes/Offers.js');
-const adminRouter = require('./Routes/Admin.js');
-const userRouter = require('./Routes/User.js');
+const propetieRouter = require("./Routes/Properties.js");
+const offerRouter = require("./Routes/Offers.js");
+const adminRouter = require("./Routes/Admin.js");
+const userRouter = require("./Routes/User.js");
 
 // app.use('/Propertie', propetieRouter);
-app.use('/Offer', offerRouter);
-app.use('/Admin', adminRouter);
-app.use('/User', userRouter);
-
+app.use("/Offer", offerRouter);
+app.use("/Admin", adminRouter);
+app.use("/User", userRouter);
 
 app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta http://localhost:${PORT}`);
+    console.log(`Servidor rodando na porta http://localhost:${PORT}`);
 });

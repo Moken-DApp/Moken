@@ -1,11 +1,10 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const { body, param } = require("express-validator");
 
 const adminController = require("../Controllers/Admin.js");
 
 const unsureAdmin = require("../Middlewares/AdminAuth.js");
-
 
 //Criar registro de palestra e todos os alunos que participaram
 router.post(
@@ -24,10 +23,6 @@ router.post(
     adminController.Login
 );
 
-router.get(
-    "/Infos",
-    unsureAdmin.unsureAdmin,
-    adminController.Infos
-)
+router.get("/Infos", unsureAdmin.unsureAdmin, adminController.Infos);
 //Exporta o ROUTER
 module.exports = router;

@@ -5,7 +5,7 @@ import "./RealEstateProperty.sol";
 
 contract RealEstateFactory {
     address public owner; // the owner of the contract
-    uint public price; // the price of the property
+    uint256 public price; // the price of the property
     string public name; // the name of the property
     string public description; // the description of the property
     RealEstateProperty[] public properties; // the properties
@@ -18,7 +18,7 @@ contract RealEstateFactory {
     function createProperty(
         string memory _name, // the name of the property
         string memory _description, // the description of the property
-        uint _price // the price of the property
+        uint256 _price // the price of the property
     ) public {
         //_description = "This is a test description";
         RealEstateProperty property = new RealEstateProperty(

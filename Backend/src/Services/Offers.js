@@ -1,19 +1,18 @@
-const { v4: uuid } = require('uuid');
-require('dotenv').config();
+const { v4: uuid } = require("uuid");
+require("dotenv").config();
 
-const { PrismaClient } = require('@prisma/client')
+const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
 class Offer {
     async createOffer(tokenAddress, type, price, accessWallet) {
-
         if (type == "private") {
-            if(!accessWallet) {
+            if (!accessWallet) {
                 throw new Error("Endereço da carteira é necessário");
             }
         } else {
-            accessWallet = ""
+            accessWallet = "";
         }
 
         //Verifica se a propriedade existe
@@ -27,9 +26,9 @@ class Offer {
                     type: type,
                     price: parseFloat(price),
                     accessWallet: accessWallet,
-                    id: uuid()
-                }
-            })
+                    id: uuid(),
+                },
+            });
             return result;
         } catch (err) {
             throw new Error(err.message);
@@ -40,9 +39,9 @@ class Offer {
         try {
             const result = await prisma.offer.findMany({
                 where: {
-                    tokenAddress: tokenAddress
-                }
-            })
+                    tokenAddress: tokenAddress,
+                },
+            });
             return result;
         } catch (err) {
             throw new Error(err.message);
@@ -53,9 +52,9 @@ class Offer {
         try {
             const result = await prisma.offer.findUnique({
                 where: {
-                    id: id
-                }
-            })
+                    id: id,
+                },
+            });
             return result;
         } catch (err) {
             throw new Error(err.message);
@@ -66,9 +65,9 @@ class Offer {
         try {
             const result = await prisma.offer.findMany({
                 where: {
-                    type: "public"
-                }
-            })
+                    type: "public",
+                },
+            });
             return result;
         } catch (err) {
             throw new Error(err.message);
@@ -79,9 +78,9 @@ class Offer {
         try {
             const result = await prisma.offer.delete({
                 where: {
-                    id: id
-                }
-            })
+                    id: id,
+                },
+            });
             return result;
         } catch (err) {
             throw new Error(err.message);
@@ -92,9 +91,9 @@ class Offer {
         try {
             const result = await prisma.offer.deleteMany({
                 where: {
-                    tokenAddress: tokenAddress
-                }
-            })
+                    tokenAddress: tokenAddress,
+                },
+            });
             return result;
         } catch (err) {
             throw new Error(err.message);
@@ -104,4 +103,4 @@ class Offer {
 
 module.exports = {
     Offer,
-}
+};
