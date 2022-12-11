@@ -1,12 +1,11 @@
 // const { v4: uuid } = require('uuid');
 require('dotenv').config();
 
-const axios = require("axios")
+const axios = require("axios");
+const contracts = require('../../utils/consumeContracts');
 
 class Propertie {
     async createPropertie(linkImage, linkDoc, description, type, address, especification) {
-
-        console.log(especification.rip)
 
         const object = {
             linkDoc: linkDoc,
@@ -16,6 +15,8 @@ class Propertie {
             address: address,
             specification: especification
         }
+
+        console.log(especification.rip)
 
         let generatedLink = "";
 
@@ -35,8 +36,23 @@ class Propertie {
             throw new Error(err.message)
         }
 
-        return generatedLink;
+        try {
+            await contracts.createProperty(generatedLink, String(especification.rip));
+            return generatedLink;
+        } catch (err) {
+            throw new Error(err.message);
+        }
     }
+
+    async getProperty(rip) {
+        try {
+            const response = await contracts.getProperty(rip);
+            return response;
+        } catch (err) {
+            throw new Error(err.message);
+        }
+    }
+            
 
     async deletePropertie(id) {
         id = Number(id);
