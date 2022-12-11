@@ -5,95 +5,69 @@
 
 <img src="https://user-images.githubusercontent.com/99221221/206878622-54420850-86b1-4eaa-9c62-fe99bb5edb40.png" alt="app-screens-mockup"/>
 
-## Nosso Time
-- Emanuele Lacerda Morais Martins
-- Henrique Marlon Conceição Santos
-- Marcelo Gomes Feitoza
-- Pedro Hagge Baptista
-
 
 ## Nossa Solução
-A Moken foi criada com o objetivo de se tornar uma plataforma da Secretaria do Patrimônio da União para ofertar seus imóveis a público em forma de tokens. Os imóveis pertencentes a SPU serão cadastrados na plataforma e nesse momento são tokenizados, criando 5 Tokens não fungíveis (NFTs) que terão seu valor lastreado neste imóvel e equivalentes a totalidade do valor do imóvel. Os tokens serão vendidos de a público, de forma que, ao comprar um token, o comprador será dono 20% da propriedade. Esta solução traz como benefícios à SPU a maior facilidade de liquidez ao patrimônio, pois o ticket de entrada para compra irá diminuir. Além disso, também trás benefícios à população uma vez que pode ser uma forma de diversificar investimentos, comprando tokens de diferentes imóveis e recebendo dividendos correspondentes a sua parte do patrimônio.
+ Moken é um aplicativo descentralizado, também conhecido como DApp, que funciona em uma rede peer-to-peer descentralizada, ou seja, as informações ficam armazenadas na rede blockchain. A blockchain na qual ele foi desenvolvido é a Celo, uma rede compatível com Proof of Stake Layer-1 EVM, otimizado para DeFi, que é projetado para ser mobile-first (priorização de dispositivos móveis). 
 
-<img src="https://user-images.githubusercontent.com/99221221/206878693-562f919a-ec3c-4a55-bfa8-1860273b0ff9.png" alt="app-screens-mockup"/>
+ A plataforma foi desenvolvida para transformar a gestão patrimonial da união, com o objetivo de se tornar um meio para a própria Secretaria do Patrimônio da União (SPU) ofertar seus imóveis a público em forma de tokens. Os imóveis pertencentes a SPU serão cadastrados na plataforma e nesse momento são tokenizados, criando tokens que terão seus valores lastreados no respectivo  imóvel. Os tokens serão vendidos de forma que, ao comprar um token, a pessoa tem direito à fração da posse do imóvel que ele representa. 
 
-## Proposta de Valor
+ Esta solução traz como benefícios à SPU a maior facilidade de liquidez ao patrimônio, pois o ticket de entrada de um token é muito menor em relação ao mercado tradicional e um autogerenciamento da carteira de imóveis pois os "Smart-contracts" garantem confiabilidade nas disposições das partes envolvidas.
 
-### Atribuições do cliente
-- Venda de imóveis em custódia da Secretaria do Patrimônio da União
+<img src="https://user-images.githubusercontent.com/99221221/206935248-ac05c3df-e8a9-4ae8-ad5e-949e97fafdf5.png" alt="app-screens-mockup"/>
 
-### Ganhos
-- Aumento da liquidez de imóveis em custódia da união
-- Aumento do ganho de proventos sobre o patrimônio
-- Transações mais seguras e com imutabilidade de dados
+## Documentação
 
-### Dores
-- Dificuldade de gerar liquidez  a partir dos patrimônios em custódia da União
-- Dificuldade de gerir tantas partes responsáveis pela gestão dos patrimônios
+A documentação com informações da visão geral do projeto, análise de negócio, requisitos do sistema e elaboração do sistema pode poder ser encontrada clicando [aqui](https://docs.google.com/document/d/1NKbF3l3-t60BgFTBy-jNdQLMHlBoJJ4H1e9Ow-CwlRc/edit?usp=sharing)
 
-### Aliviadores de dor
-- Centralização das informações em um só lugar
-- Diminuição do ticket de entrada para compra de propriedades
+## Árvore de arquivos
+As pastas desse projeto foram organizadas conforme exemplo a seguir:
+```
+├── .vscode
+├── Backend
+│    ├── database
+│    ├── hardhat
+│    ├── prisma
+│    ├── src
+│    ├── utils
+├── Documents
+├── Frontend
+│    ├── .next
+│    ├── assets
+│    ├── components
+│    ├── pages
+│    ├── public
+│    ├── styles
+├── README.md
+```
+## Arquitetura do sistema
 
-### Criadores de ganhos
-- Transparência das transações
-- Imutabilidade da informação
-- Redução de custos
-- Menor chance de erro humano
-- Rapidez dos processos
+<img src="https://user-images.githubusercontent.com/99221221/206935813-57cb0afa-e7a8-4310-bded-5ffce28f73cd.png" alt="arquitetura do sistema"/>
 
-### Produtos e Serviços
-- Aplicação descentralizada com funcionamento em rede peer-to-peer e informações armazenadas em blockchain
+1 - O Frontend se comunica com o Backend, chamando as rotas e recebendo o retorno de acordo com os parâmetros indicados.
 
+2 - O Frontend se comunica com a blockchain, chamando funções contidas nos contratos e recebendo o retorno de acordo com os parâmetros indicados.
 
-## Histórias de usuários
+3 - O Backend se comunica com a blockchain chamando funções contidas nos contratos e recebendo o retorno de acordo com os parâmetros indicados.
 
- - [x] Eu, como usuário da Moken, quero poder clicar em um card e ver demais informações da propriedade
+4 - O Backend armazena informações no banco de dados e também solicita informações por meio de uma ORM ( Prisma.io ).
 
- - [x] Eu, como usuário da Moken, quero poder filtrar por preço as propriedades disponíveis na plataforma.
-
- - [x] Eu, como usuário da Moken, quero poder acessar o menu e saber em qual carteira estou logado
- 
- - [x] Eu, como usuário da Moken, quero poder ver a cadeia dominial do Token do imóvel.
-
- - [x] Eu, como usuário da Moken, quero poder consultar os tokens em minhas carteira
-
- - [x] Eu, como usuário da Moken, quero poder fazer login a partir da MetaMask
-
- - [x] Eu, como usuário da Moken, quero poder ver em meu carrinho as propriedades que estou comprando.
-
- - [x] Eu, como usuário da Moken, quero poder colocar a venda de forma pública e privada
-
- - [x] Eu, como usuário da Moken, quero receber feedback de quando minhas operações são concluidas com sucesso
-
- - [x] Eu, como usuário da Moken, quero poder tranferir para outra carteira os tokens de minha carteira
-
- - [x] Eu, como funcionário da SPU, quero saber quando minhas operações foram concluidas com sucesso
-
- - [x] Eu, como funcionário da SPU quero poder entrar na plataforma a partir de um login usando o email da SPU ("email@spu.gov.br")
-
- - [x] Eu, como funcionário da SPU, quero poder ter acesso a todas as propriedades disponiveis na Moken
-
- - [x] Eu, como funcionário da SPU, quero poder adicionar novas propriedadeas na plataforma atraves de um formulário
-
- - [x] Eu, como funcionário da SPU, quero poder acessar o menu lateral 
- 
 ## Tecnologias
 
  Esse projeto foi desenvolvido usando as seguintes tecnologias:
  
- - React
- - Tailwind
- - Css
- - JavaScript
- - Ethers Js
- - Prisma 
- - Node Js
- - SQLite
- - Metamask
- - HardHat
- - Solidity
- - IPFS (InterPlanetary File System)
+- React
+- Tailwind
+- Css
+- JavaScript
+- Ethers Js
+- Prisma
+- Node Js
+- SQLite
+- Metamask
+- HardHat
+- Solidity
+- IPFS (InterPlanetary File System)
+- Celo Testnet ( Alfajores )
 
 ## Licença
 
