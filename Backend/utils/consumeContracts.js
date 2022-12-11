@@ -104,5 +104,4 @@ module.exports = {
     getProperty,
     getPropertyMetadata,
     getProperties,
-    getAllProperties
 };
