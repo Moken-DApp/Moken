@@ -58,6 +58,11 @@ contract Property is ERC721 {
         return uris;
     }
 
+    // Get Contract Address
+    function getTokenAdr() public view returns (address) {
+        return address(this);
+    }
+
     // Get token uri by rip
     function getTokenURIByRIP(
         string memory rip

@@ -48,11 +48,13 @@ class Propertie {
         let tokenAddress = "";
 
         try {
-            tokenAddress = await contracts.createProperty(
-                generatedLink,
-                String(especification.rip)
-            );
-            console.log(tokenAddress);
+            await contracts.createProperty(generatedLink, String(especification.rip));
+        } catch (err) {
+            throw new Error(err.message);
+        }
+
+        try {
+            tokenAddress = await contracts.getTokenAdr(String(especification.rip));
         } catch (err) {
             throw new Error(err.message);
         }
@@ -77,7 +79,6 @@ class Propertie {
     async getProperty(rip) {
         try {
             const response = await contracts.getProperty(rip);
-            console.log(response);
             return response;
         } catch (err) {
             throw new Error(err.message);

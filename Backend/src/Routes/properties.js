@@ -40,6 +40,7 @@ router.post(
     ],
     propertieController.createPropertie
 );
+
 router.get(
     "/getProperty/:id",
     [
@@ -59,6 +60,11 @@ router.get(
     ],
     propertieController.getPropertyMetadata
 );
+
+router.get(
+    "/getProperties",
+    propertieController.getProperties
+)
 
 // router.delete(
 //     "/deletePropertie/:id",

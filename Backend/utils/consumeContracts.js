@@ -47,7 +47,7 @@ async function getProperty(id) {
         wallet
     );
 
-    const response = await contract.getTokenURIByRIP(id);
+    const response = await contract.getProperty(id);
 
     return response;
 }
@@ -104,4 +104,5 @@ module.exports = {
     getProperty,
     getPropertyMetadata,
     getProperties,
+    getAllProperties
 };
