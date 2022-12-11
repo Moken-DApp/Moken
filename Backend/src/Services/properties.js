@@ -4,9 +4,12 @@ require('dotenv').config();
 const axios = require("axios");
 const contracts = require('../../utils/consumeContracts');
 
-class Propertie {
-    async createPropertie(linkImage, linkDoc, description, type, address, especification) {
+const { PrismaClient } = require("@prisma/client");
 
+const prisma = new PrismaClient();
+
+class Propertie {
+    async createPropertie(linkImage, linkDoc, description, type, address, especification, cpfOwner) {
         const object = {
             linkDoc: linkDoc,
             linkImage: linkImage,
@@ -15,8 +18,6 @@ class Propertie {
             address: address,
             specification: especification
         }
-
-        console.log(especification.rip)
 
         let generatedLink = "";
 
@@ -27,7 +28,7 @@ class Propertie {
                 data: JSON.stringify(object),
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIxZjBhMWFhYy0xYTI2LTRhYmItOTBkZi1mOTk2N2I3ZDAyYjMiLCJlbWFpbCI6ImZlaXRvemEubWFyY2VsbzdAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siaWQiOiJGUkExIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9LHsiaWQiOiJOWUMxIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6IjAwYTA2YWJkNjYxOTBhNTc0M2UwIiwic2NvcGVkS2V5U2VjcmV0IjoiYzBhMzcyNDgxZjVmNmUwMTc2YzhmMGE1MTY4ZDlhNTgxYWU1Nzk5MjAzYWJlYWUzZjY0MTg2MWY5MzNjNTVhNSIsImlhdCI6MTY3MDcwOTY3OX0.S39tt-Owbc62mR7RCeaqPM4QTBL9p76l2-agHS3898A`
+                    'Authorization': `Bearer ${process.env.JWT_PINATA}`
                 },
             }).then((data) => {
                 generatedLink  = `https://ipfs.io/ipfs/${data.data.IpfsHash}`
@@ -36,17 +37,36 @@ class Propertie {
             throw new Error(err.message)
         }
 
+        let tokenAddress = "";
+
         try {
-            await contracts.createProperty(generatedLink, String(especification.rip));
-            return generatedLink;
+            tokenAddress = await contracts.createProperty(generatedLink, String(especification.rip));
+            console.log(tokenAddress)
         } catch (err) {
             throw new Error(err.message);
         }
+
+        try {
+            await prisma.cpfToken.create({
+                data: {
+                    tokenAddress: tokenAddress,
+                    cpfOwner: "00000000000",
+                    ownerAddress: "0x0000000000000000000000000000000000000000",
+                    atual: true
+                },
+            });
+        } catch (err) {
+            console.log(err.message)
+            throw new Error(err.message);
+        }
+
+        return generatedLink;
     }
 
     async getProperty(rip) {
         try {
             const response = await contracts.getProperty(rip);
+            console.log(response)
             return response;
         } catch (err) {
             throw new Error(err.message);

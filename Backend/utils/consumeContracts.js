@@ -16,7 +16,7 @@ async function createProperty(URI, rip) {
 
     await provider.ready;
 
-    const wallet = new CeloWallet("cd880186895b944b4d822a51df9fb01ffc3405cc24d2dc31a99bb35c0686afa3", provider);
+    const wallet = new CeloWallet(process.env.PRIVATE_KEY_CONTRACT, provider);
 
     const contract = new ethers.Contract(
         address.addresses[0].InteliFactory, 
@@ -34,7 +34,7 @@ async function getProperty(id) {
 
     await provider.ready;
 
-    const wallet = new CeloWallet("cd880186895b944b4d822a51df9fb01ffc3405cc24d2dc31a99bb35c0686afa3", provider);
+    const wallet = new CeloWallet(process.env.PRIVATE_KEY_CONTRACT, provider);
 
     const contract = new ethers.Contract(
         address.addresses[0].InteliFactory, 
@@ -42,12 +42,31 @@ async function getProperty(id) {
         wallet
     );
 
-    const response = await contract.getProperty(id);
+    const response = await contract.getTokenURIByRIP(id);
+
+    return response;
+}
+
+async function getAllProperties(id) {
+    const provider = new CeloProvider('https://alfajores-forno.celo-testnet.org');
+
+    await provider.ready;
+
+    const wallet = new CeloWallet(process.env.PRIVATE_KEY_CONTRACT, provider);
+
+    const contract = new ethers.Contract(
+        address.addresses[0].InteliFactory, 
+        storage.abi, 
+        wallet
+    );
+
+    const response = await contract.getTokenURI(id);
 
     return response;
 }
 
 
 module.exports = {
-    createProperty
+    createProperty,
+    getProperty
 };
