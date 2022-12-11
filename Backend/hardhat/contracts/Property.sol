@@ -27,10 +27,15 @@ contract Property is ERC721 {
         _;
     }
 
-    function createProperty(string memory _uri, string memory _rip) external {
+    function createProperty(
+        string memory _uri,
+        string memory _rip
+    ) external returns (address) {
         _mint(msg.sender, _tokenIds.current());
         _setTokenURI(_tokenIds.current(), _uri, _rip);
         _tokenIds.increment();
+
+        return address(this);
     }
 
     // Mints all tokens - 1 (?*10...) for each square meter
@@ -57,7 +62,7 @@ contract Property is ERC721 {
         return uris;
     }
 
-    // Get token uri by id
+    // Get token uri by rip
     function getTokenURIByRIP(
         string memory rip
     ) public view returns (string memory) {

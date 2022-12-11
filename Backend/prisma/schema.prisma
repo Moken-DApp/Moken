@@ -36,7 +36,10 @@ model Admin {
 
 model CpfToken {
   tokenAddress    String    @unique
-  cpfOwner        String    @unique
+  cpfOwner        String    
+  ownerAddress    String    
+  data            DateTime  @default(now())
+  atual           Boolean
 
   @@map("cpf_tokens")
 }

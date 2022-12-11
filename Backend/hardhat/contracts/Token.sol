@@ -55,7 +55,6 @@ contract Token is ERC20 {
         return true;
     }
 
-    // SEM AMOUNT???????
     function buyToken(address _owner, uint256 _amount) public payable {
         require(allowance(_owner, owner) > 0, "Not on sale");
         require(msg.value >= tokenValue[_owner]);

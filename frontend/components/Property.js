@@ -10,7 +10,7 @@ export const Property = ({
     area,
     details,
     amount,
-    id,
+    rip,
     shrink,
 }) => {
     return (
@@ -18,12 +18,12 @@ export const Property = ({
             className={`bg-white border-2 border-black rounded-2xl ${
                 shrink ? "flex-shrink-0 w-2/3" : "w-full"
             }`}
-            href={`/property/${id}`}
+            href={`/propriedades/${rip}`}
         >
             <div className="p-2 flex flex-row justify-between items-center">
-                <Coin width={20} />
+                <Coin wripth={20} />
 
-                <p>#{id}</p>
+                <p>#{rip}</p>
             </div>
 
             <Image src={image} alt="property" />

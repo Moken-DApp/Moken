@@ -101,7 +101,7 @@ const Properties = () => {
             area: 342,
             details: ["6 quartos", "2 vagas"],
             amount: 1 / 4,
-            id: 3145,
+            rip: "9701.23456.500-1",
         },
         {
             image: preview,
@@ -112,7 +112,7 @@ const Properties = () => {
             area: 342,
             details: ["6 quartos", "2 vagas"],
             amount: 1 / 4,
-            id: 3145,
+            rip: "9701.23456.500-1",
         },
         {
             image: preview,
@@ -123,7 +123,7 @@ const Properties = () => {
             area: 342,
             details: ["6 quartos", "2 vagas"],
             amount: 1 / 4,
-            id: 3145,
+            rip: "9701.23456.500-1",
         },
         {
             image: preview,
@@ -134,7 +134,7 @@ const Properties = () => {
             area: 342,
             details: ["6 quartos", "2 vagas"],
             amount: 1 / 4,
-            id: 3145,
+            rip: "9701.23456.500-1",
         },
         {
             image: preview,
@@ -145,7 +145,7 @@ const Properties = () => {
             area: 342,
             details: ["6 quartos", "2 vagas"],
             amount: 1 / 4,
-            id: 3145,
+            rip: "9701.23456.500-1",
         },
         {
             image: preview,
@@ -156,7 +156,7 @@ const Properties = () => {
             area: 342,
             details: ["6 quartos", "2 vagas"],
             amount: 1 / 4,
-            id: 3145,
+            rip: "9701.23456.500-1",
         },
     ]);
 

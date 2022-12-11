@@ -79,7 +79,7 @@ export const Modal = ({ opened, closeModal }) => {
 
                     <div className="w-full flex flex-col items-center">
                         <Link
-                            href={"/"}
+                            href={"/propriedades"}
                             className="w-4/5 border-2 border-black rounded-3xl px-4 py-2 flex flex-row justify-between mt-16 items-center shadow-lg transition ease-in-out delay-75 hover:-translate-y-1 hover:scale-105 duration-200"
                         >
                             <div className="flex flex-row items-center">
@@ -94,7 +94,7 @@ export const Modal = ({ opened, closeModal }) => {
                             <Arrow width={16} />
                         </Link>
 
-                        <Link
+                        {/* <Link
                             href={"/cart"}
                             className="w-4/5 border-2 border-black rounded-3xl px-4 py-2 flex flex-row justify-between mt-8 items-center shadow-lg transition ease-in-out delay-75 hover:-translate-y-1 hover:scale-105 duration-200"
                         >
@@ -108,7 +108,7 @@ export const Modal = ({ opened, closeModal }) => {
                             </div>
 
                             <Arrow width={16} />
-                        </Link>
+                        </Link> */}
 
                         <Link
                             href={"/propriedades/adicionar"}
@@ -217,11 +217,13 @@ export const Modal = ({ opened, closeModal }) => {
                                     )
                                 }
                             >
-                                {state.user.wallet.slice(0, 6) +
-                                    "..." +
-                                    state.user.wallet.slice(
-                                        state.user.wallet.length - 4
-                                    )}
+                                {state.user?.wallet
+                                    ? state.user.wallet.slice(0, 6) +
+                                      "..." +
+                                      state.user.wallet.slice(
+                                          state.user.wallet.length - 4
+                                      )
+                                    : "0x0000000000000000000000000000000000000000"}
                             </p>
                         </div>
                     </div>

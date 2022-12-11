@@ -3,13 +3,19 @@ import { Property } from "../../components/Property";
 import { Coin } from "../../assets/icons/Coin";
 
 import preview from "../../assets/preview.png";
+import { useEffect } from "react";
+import axios from "../../axios";
 
-const PropertyPage = () => {
+const PropertyPage = ({ property }) => {
+    useEffect(() => {
+        console.log(property);
+    }, []);
+
     return (
         <Layout>
             <div className="flex flex-col justify-center items-center w-full md:w-2/5 md:mx-auto pb-8">
                 <div className="w-11/12 mt-4">
-                    <p className="text-xl font-bold">#3149</p>
+                    <p className="text-xl font-bold">#9701.23456.500-1</p>
                     <p className="text-xs">
                         {"Propriedade da União Federal (RIP: 9701 23456.500-1)"}
                     </p>
@@ -25,6 +31,7 @@ const PropertyPage = () => {
                         area={342}
                         details={["6 quartos", "2 vagas"]}
                         amount={1 / 4}
+                        rip={"9701.23456.500-1"}
                     />
                 </div>
                 <div className="w-11/12 mt-8 flex justify-center items-center">
@@ -170,6 +177,24 @@ const PropertyPage = () => {
             </div>
         </Layout>
     );
+};
+
+export const getServerSideProps = async (context) => {
+    const { id } = context.params;
+
+    const res = await axios
+        .get(`http://10.254.17.173:3001/Propertie/getProperty/${id}`)
+        .then((res) => {
+            console.log(res.data);
+            return res.data;
+        })
+        .catch((err) => console.error(err));
+
+    return {
+        props: {
+            property: res,
+        },
+    };
 };
 
 export default PropertyPage;

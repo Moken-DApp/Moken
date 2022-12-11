@@ -25,7 +25,7 @@ const Home = () => {
             area: 342,
             details: ["6 quartos", "2 vagas"],
             amount: 1 / 4,
-            id: 3145,
+            rip: "9701.23456.500-1",
         },
         {
             image: preview,
@@ -36,7 +36,7 @@ const Home = () => {
             area: 342,
             details: ["6 quartos", "2 vagas"],
             amount: 1 / 4,
-            id: 3145,
+            rip: "9701.23456.500-1",
         },
         {
             image: preview,
@@ -47,7 +47,7 @@ const Home = () => {
             area: 342,
             details: ["6 quartos", "2 vagas"],
             amount: 1 / 4,
-            id: 3145,
+            rip: "9701.23456.500-1",
         },
         {
             image: preview,
@@ -58,7 +58,7 @@ const Home = () => {
             area: 342,
             details: ["6 quartos", "2 vagas"],
             amount: 1 / 4,
-            id: 3145,
+            rip: "9701.23456.500-1",
         },
         {
             image: preview,
@@ -69,7 +69,7 @@ const Home = () => {
             area: 342,
             details: ["6 quartos", "2 vagas"],
             amount: 1 / 4,
-            id: 3145,
+            rip: "9701.23456.500-1",
         },
         {
             image: preview,
@@ -80,7 +80,7 @@ const Home = () => {
             area: 342,
             details: ["6 quartos", "2 vagas"],
             amount: 1 / 4,
-            id: 3145,
+            rip: "9701.23456.500-1",
         },
     ]);
 
@@ -101,7 +101,7 @@ const Home = () => {
                         />
                         <button
                             className="bg-black text-white rounded-r-full text-sm py-3 shadow-md w-1/5 text-center"
-                            onClick={() => router.push("/properties")}
+                            onClick={() => router.push("/propriedades")}
                         >
                             Buscar
                         </button>
@@ -139,7 +139,7 @@ const Home = () => {
                     <button
                         className="bg-black py-2 px-8 text-white rounded-md"
                         onClick={() => {
-                            router.push("/");
+                            router.push("/propriedades");
                         }}
                     >
                         Ver {properties ? "mais" : ""} propriedades
@@ -227,7 +227,7 @@ const Home = () => {
                         <button
                             className="bg-black py-2 px-8 text-white rounded-md mt-8"
                             onClick={() => {
-                                router.push("/properties");
+                                router.push("/propriedades");
                             }}
                         >
                             Ver mais propriedades
