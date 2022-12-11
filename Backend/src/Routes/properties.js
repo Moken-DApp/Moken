@@ -15,10 +15,16 @@ router.post(
     [body("specifications", "Especificação da Propriedade é necessário").exists({ checkFalsy: true })],
     propertieController.createPropertie
 );
+
 router.get(
     "/getProperty/:id",
     [param("id", "ID da Propriedade é necessário").exists({ checkFalsy: true })],
     propertieController.getProperty
+)
+
+router.get(
+    "/getProperties",
+    propertieController.getProperties
 )
 
 // router.delete(

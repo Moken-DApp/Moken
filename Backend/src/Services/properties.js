@@ -9,7 +9,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 class Propertie {
-    async createPropertie(linkImage, linkDoc, description, type, address, especification, cpfOwner) {
+    async createPropertie(linkImage, linkDoc, description, type, address, especification) {
         const object = {
             linkDoc: linkDoc,
             linkImage: linkImage,
@@ -40,8 +40,13 @@ class Propertie {
         let tokenAddress = "";
 
         try {
-            tokenAddress = await contracts.createProperty(generatedLink, String(especification.rip));
-            console.log(tokenAddress)
+            await contracts.createProperty(generatedLink, String(especification.rip));
+        } catch (err) {
+            throw new Error(err.message);
+        }
+
+        try {
+            tokenAddress = await contracts.getTokenAdr(String(especification.rip));
         } catch (err) {
             throw new Error(err.message);
         }
@@ -66,7 +71,6 @@ class Propertie {
     async getProperty(rip) {
         try {
             const response = await contracts.getProperty(rip);
-            console.log(response)
             if (response == "") {
                 throw new Error("Propriedade não encontrada");
             } else {
@@ -77,76 +81,14 @@ class Propertie {
         }
     }
             
-
-    async deletePropertie(id) {
-        id = Number(id);
-
-        try {
-            const result = await prisma.propetie.delete({
-                where: { id: id },
-            });
-            return result;
-        } catch (err) {
-            throw new Error(err.message);
-        }
-    }
-
-    async updatePropertie(id, title, currentPrice, type, owner) {
-        let data = {};
-
-        if (title) {
-            data.title = title;
-        }
-        if (currentPrice) {
-            data.currentPrice = parseFloat(currentPrice);
-        }
-        if (type) {
-            data.type = type;
-        }
-        if (owner) {
-            data.owner = owner;
-        }
-
-        if (!(title || currentPrice || type || owner)) {
-            throw new Error("Nenhum dado para atualizar");
-        }
-
-        try {
-            const result = await prisma.propetie.update({
-                where: { id: id },
-                data: data,
-            });
-            data = {};
-            return result;
-        } catch (err) {
-            throw new Error(err.message);
-        }
-    }
-
     async getProperties() {
         try {
-            const result = await prisma.propetie.findMany({
-                include: {
-                    offers: true,
-                },
-            });
-            return result;
-        } catch (err) {
-            throw new Error(err.message);
-        }
-    }
-
-    async trasnferPropertie(id, newOwner) {
-        try {
-            const result = await prisma.propetie.update({
-                where: { id: id },
-                data: {
-                    owner: newOwner,
-                    sold: true,
-                    onSale: false,
-                },
-            });
-            return result;
+            const response = await contracts.getAllProperties();
+            if (response == "") {
+                throw new Error("Propriedade não encontrada");
+            } else {
+                return response;
+            }
         } catch (err) {
             throw new Error(err.message);
         }
