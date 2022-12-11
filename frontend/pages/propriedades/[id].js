@@ -4,7 +4,7 @@ import { Coin } from "../../assets/icons/Coin";
 
 import preview from "../../assets/preview.png";
 import { useEffect, useState } from "react";
-import axios from "../../axios";
+import axios from "../../utils/axios";
 import { useRouter } from "next/router";
 
 const PropertyPage = ({ property }) => {

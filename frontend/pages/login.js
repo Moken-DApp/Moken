@@ -9,7 +9,7 @@ import { ethers } from "ethers";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 
-import axios from "../axios";
+import axios from "../utils/axios";
 
 const Login = () => {
     const {

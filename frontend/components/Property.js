@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Coin } from "../assets/icons/Coin";
 
+import preview from "../assets/preview.png";
+
 export const Property = ({
     imageUri,
     category,
@@ -27,14 +29,24 @@ export const Property = ({
                 <p># {rip}</p>
             </div>
 
-            <Image
-                src={imageUri}
-                loader={() => imageUri}
-                alt="Picture of the author"
-                width={300}
-                height={200}
-                layout="responsive"
-            />
+            {imageUri ? (
+                <Image
+                    src={imageUri}
+                    loader={() => imageUri}
+                    alt="Picture of the author"
+                    width={300}
+                    height={200}
+                    layout="responsive"
+                />
+            ) : (
+                <Image
+                    src={preview}
+                    alt="Picture of the author"
+                    width={300}
+                    height={200}
+                    layout="responsive"
+                />
+            )}
 
             <div className="p-4">
                 <p className="text-sm text-gray-600">{category}</p>

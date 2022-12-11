@@ -17,7 +17,6 @@ const Home = () => {
 
     const [properties, setProperties] = useState([
         {
-            image: preview,
             category: "Apartamento",
             price: 145630.46,
             address:
@@ -28,7 +27,6 @@ const Home = () => {
             rip: "9701.23456.500-1",
         },
         {
-            image: preview,
             category: "Apartamento",
             price: 145630.46,
             address:
@@ -39,7 +37,6 @@ const Home = () => {
             rip: "9701.23456.500-1",
         },
         {
-            image: preview,
             category: "Apartamento",
             price: 145630.46,
             address:
@@ -50,7 +47,6 @@ const Home = () => {
             rip: "9701.23456.500-1",
         },
         {
-            image: preview,
             category: "Apartamento",
             price: 145630.46,
             address:
@@ -61,7 +57,6 @@ const Home = () => {
             rip: "9701.23456.500-1",
         },
         {
-            image: preview,
             category: "Apartamento",
             price: 145630.46,
             address:
@@ -72,7 +67,6 @@ const Home = () => {
             rip: "9701.23456.500-1",
         },
         {
-            image: preview,
             category: "Apartamento",
             price: 145630.46,
             address:
