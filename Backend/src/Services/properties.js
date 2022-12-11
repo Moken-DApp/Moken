@@ -67,7 +67,11 @@ class Propertie {
         try {
             const response = await contracts.getProperty(rip);
             console.log(response)
-            return response;
+            if (response == "") {
+                throw new Error("Propriedade não encontrada");
+            } else {
+                return response;
+            }
         } catch (err) {
             throw new Error(err.message);
         }
