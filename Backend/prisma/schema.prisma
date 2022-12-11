@@ -33,3 +33,10 @@ model Admin {
 
   @@map("admins")
 }
+
+model CpfToken {
+  tokenAddress    String    @unique
+  cpfOwner        String    @unique
+
+  @@map("cpf_tokens")
+}
