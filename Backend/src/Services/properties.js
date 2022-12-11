@@ -1,7 +1,7 @@
 const { v4: uuid } = require('uuid');
 require('dotenv').config();
 
-import * as IPFS from 'ipfs-core'
+// import * as IPFS from 'ipfs-core'
 
 const { PrismaClient } = require('@prisma/client')
 

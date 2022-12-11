@@ -90,18 +90,18 @@ const Login = () => {
                         senha: password,
                     })
                     .then((data) => {
-                        console.log(data.data);
                         window.sessionStorage.setItem("token", data.data.token);
                         window.sessionStorage.setItem("isAdmin", true);
 
                         router.push("/");
                     })
-                    .catch((err) => setloggingIn(false) && console.log(err));
+                    .catch((err) => {
+                        setloggingIn(false);
+                        console.log(err);
+                    });
             } catch (err) {
                 console.error(err);
             }
-
-            console.log(formData);
         }
     };
 

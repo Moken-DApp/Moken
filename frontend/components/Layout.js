@@ -41,8 +41,6 @@ export const Layout = ({
                                   isAdmin: true,
                               },
                           });
-
-                          console.log(data, token, isAdmin);
                       })
                       .catch((err) => router.push("/login"))
                 : await axios
@@ -58,7 +56,6 @@ export const Layout = ({
                                   wallet: data.data,
                               },
                           });
-                          console.log(data.data, token);
                       })
                       .catch((err) => router.push("/login"))
             : null;

@@ -5,7 +5,9 @@ import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-const SuccessModal = ({ modalOpened }) => {
+import axios from "axios";
+
+const SuccessModal = ({ modalOpened, link }) => {
     const router = useRouter();
 
     return modalOpened ? (
@@ -27,17 +29,20 @@ const SuccessModal = ({ modalOpened }) => {
                 Operação realizada com sucesso
             </p>
 
+            {link ? (
+                <span className="text-gray-600 mt-2 text-center w-full">
+                    Link da sua propriedade:{" "}
+                    <Link href={link} target={"_blank"}>
+                        {link}
+                    </Link>
+                </span>
+            ) : null}
+
             <button
                 onClick={() => router.push("/propriedades")}
                 className="px-4 py-2 bg-black text-white mt-8 rounded-lg"
             >
                 Voltar para as Propriedades
-            </button>
-            <button
-                onClick={() => router.push("/")}
-                className="px-4 py-2 bg-black text-white mt-2 rounded-lg"
-            >
-                Voltar para a Tela incial
             </button>
         </div>
     ) : null;
@@ -51,19 +56,100 @@ const Adicionar = () => {
     } = useForm();
 
     const [modalOpened, setModalOpened] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [link, setLink] = useState("");
+
+    const sendFileToIPFS = async (file) => {
+        if (file) {
+            try {
+                const formData = new FormData();
+                formData.append("file", file);
+
+                const resFile = await axios({
+                    method: "post",
+                    url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+                    data: formData,
+                    headers: {
+                        pinata_api_key: `${process.env.NEXT_PUBLIC_REACT_APP_PINATA_API_KEY}`,
+                        pinata_secret_api_key: `${process.env.NEXT_PUBLIC_REACT_APP_PINATA_API_SECRET}`,
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
+
+                const fileHash = `https://ipfs.io/ipfs/${resFile.data.IpfsHash}`;
+
+                return fileHash;
+            } catch (err) {
+                console.log("Error sending file to IPFS: ", err);
+            }
+        }
+    };
 
     const onSubmit = async (data) => {
-        console.log(data);
-        
-        
+        setLoading(true);
+
+        const {
+            image,
+            document,
+            type,
+            description,
+            street,
+            neighborhood,
+            city,
+            state,
+            cep,
+            rip,
+            area,
+            rooms,
+            parkingPlaces,
+        } = data;
+
+        try {
+            const imageHash = await sendFileToIPFS(image[0]);
+            const documentHash = await sendFileToIPFS(document[0]);
+
+            const property = {
+                linkImage: imageHash,
+                linkDoc: documentHash,
+                type,
+                description,
+                address: {
+                    street,
+                    neighborhood,
+                    city,
+                    state,
+                    cep,
+                },
+                specifications: {
+                    rip,
+                    area,
+                    rooms,
+                    parkingPlaces,
+                },
+            };
+
+            await axios
+                .post(
+                    "http://10.254.17.16:3001/Propertie/createPropertie",
+                    property
+                )
+                .then((data) => {
+                    setLink(data.data);
+                    setModalOpened(true);
+                })
+                .catch((err) => console.log(err));
+
+            setLoading(false);
+        } catch (err) {
+            console.log("Error: ", err);
+            alert("Erro ao adicionar propriedade");
+            setLoading(false);
+        }
     };
 
     return (
         <>
-            <SuccessModal
-                modalOpened={modalOpened}
-                setModalOpened={setModalOpened}
-            />
+            <SuccessModal modalOpened={modalOpened} link={link} />
             <Layout>
                 <div
                     className={`flex flex-col w-full md:w-2/5 md:mx-auto pb-4 ${
@@ -90,16 +176,44 @@ const Adicionar = () => {
                                 <span className="text-red-500 text-md">*</span>
                             </p>
 
-                            <input
-                                className={
-                                    "block w-full text-sm border-2 p-8 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none border-black"
-                                }
-                                id="file_input"
-                                type="file"
-                                {...register("image", {
-                                    required: "Imagem do imóvel necessária",
-                                })}
-                            />
+                            <div class="flex items-center justify-center w-full">
+                                <label
+                                    for="dropzone-file"
+                                    class="flex flex-col items-center justify-center w-full h-32 border-2 rounded-lg cursor-pointer bg-gray-5 border-black"
+                                >
+                                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                        <svg
+                                            ariaHidden="true"
+                                            class="w-10 text-gray-400"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                                            ></path>
+                                        </svg>
+                                        <input
+                                            id="dropzone-file"
+                                            type="file"
+                                            className="flex text-sm text-gray-500"
+                                            {...register("image", {
+                                                required:
+                                                    "Imagem do imóvel necessária",
+                                            })}
+                                        />
+                                    </div>
+                                </label>
+                            </div>
+                            {errors.image && (
+                                <p className="text-red-500 text-sm">
+                                    {errors.image.message}
+                                </p>
+                            )}
                         </div>
 
                         <div className={"flex flex-col justify-center w-full"}>
@@ -108,16 +222,44 @@ const Adicionar = () => {
                                 <span className="text-red-500 text-md">*</span>
                             </p>
 
-                            <input
-                                className={
-                                    "block w-full text-sm border-2 p-8 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none border-black"
-                                }
-                                id="file_input"
-                                type="file"
-                                {...register("document", {
-                                    required: "Documento do imóvel necessária",
-                                })}
-                            />
+                            <div class="flex items-center justify-center w-full">
+                                <label
+                                    for="dropzone-file"
+                                    class="flex flex-col items-center justify-center w-full h-32 border-2 rounded-lg cursor-pointer bg-gray-5 border-black"
+                                >
+                                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                        <svg
+                                            ariaHidden="true"
+                                            class="w-10 text-gray-400"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                                            ></path>
+                                        </svg>
+                                        <input
+                                            id="dropzone-file"
+                                            type="file"
+                                            className="flex text-sm text-gray-500"
+                                            {...register("document", {
+                                                required:
+                                                    "Documento do imóvel necessário",
+                                            })}
+                                        />
+                                    </div>
+                                </label>
+                            </div>
+                            {errors.document && (
+                                <p className="text-red-500 text-sm">
+                                    {errors.document.message}
+                                </p>
+                            )}
                         </div>
 
                         <div className="flex flex-col justify-center w-full">
@@ -135,6 +277,11 @@ const Adicionar = () => {
                                     required: "Indique o tipo de imóvel",
                                 })}
                             />
+                            {errors.type && (
+                                <p className="text-red-500 text-sm">
+                                    {errors.type.message}
+                                </p>
+                            )}
                         </div>
 
                         <div className="flex flex-col justify-center w-full">
@@ -151,9 +298,14 @@ const Adicionar = () => {
                                     required: "Descrição necessária",
                                 })}
                             />
+                            {errors.description && (
+                                <p className="text-red-500 text-sm">
+                                    {errors.description.message}
+                                </p>
+                            )}
                         </div>
 
-                        <div>
+                        <div className="w-full">
                             <p className="text-lg text-black mt-8">
                                 Endereço do imovel:{" "}
                                 <span className="text-red-500 text-md">*</span>
@@ -169,6 +321,11 @@ const Adicionar = () => {
                                     required: "Indique a rua do imóvel",
                                 })}
                             />
+                            {errors.street && (
+                                <p className="text-red-500 text-sm">
+                                    {errors.street.message}
+                                </p>
+                            )}
 
                             <input
                                 type={"text"}
@@ -176,10 +333,15 @@ const Adicionar = () => {
                                 className={
                                     "border-black border-2 px-4 py-2 rounded-lg w-full mt-2"
                                 }
-                                {...register("neighbourhood", {
+                                {...register("neighborhood", {
                                     required: "Indique o Bairro do imóvel",
                                 })}
                             />
+                            {errors.neighborhood && (
+                                <p className="text-red-500 text-sm">
+                                    {errors.neighborhood.message}
+                                </p>
+                            )}
 
                             <input
                                 type={"text"}
@@ -191,6 +353,11 @@ const Adicionar = () => {
                                     required: "Indique a Cidade do imóvel",
                                 })}
                             />
+                            {errors.city && (
+                                <p className="text-red-500 text-sm">
+                                    {errors.city.message}
+                                </p>
+                            )}
 
                             <input
                                 type={"text"}
@@ -202,6 +369,11 @@ const Adicionar = () => {
                                     required: "Indique o Estado do imóvel",
                                 })}
                             />
+                            {errors.state && (
+                                <p className="text-red-500 text-sm">
+                                    {errors.state.message}
+                                </p>
+                            )}
 
                             <input
                                 type={"text"}
@@ -213,9 +385,14 @@ const Adicionar = () => {
                                     required: "Indique o CEP do imóvel",
                                 })}
                             />
+                            {errors.cep && (
+                                <p className="text-red-500 text-sm">
+                                    {errors.cep.message}
+                                </p>
+                            )}
                         </div>
 
-                        <div>
+                        <div className="w-full">
                             <p className="text-lg text-black mt-8">
                                 Especificações:{" "}
                                 <span className="text-red-500 text-md">*</span>
@@ -232,6 +409,11 @@ const Adicionar = () => {
                                         "Indique o Registro Imobiliário Patrimonial",
                                 })}
                             />
+                            {errors.rip && (
+                                <p className="text-red-500 text-sm">
+                                    {errors.rip.message}
+                                </p>
+                            )}
 
                             <input
                                 type={"number"}
@@ -245,6 +427,11 @@ const Adicionar = () => {
                                     required: "Indique a Área da propriedade",
                                 })}
                             />
+                            {errors.area && (
+                                <p className="text-red-500 text-sm">
+                                    {errors.area.message}
+                                </p>
+                            )}
 
                             <input
                                 type={"number"}
@@ -258,6 +445,11 @@ const Adicionar = () => {
                                     required: "Indique o número de quartos",
                                 })}
                             />
+                            {errors.rooms && (
+                                <p className="text-red-500 text-sm">
+                                    {errors.rooms.message}
+                                </p>
+                            )}
 
                             <input
                                 type={"number"}
@@ -271,11 +463,18 @@ const Adicionar = () => {
                                     required: "Indique o número de vagas",
                                 })}
                             />
+                            {errors.parkingPlaces && (
+                                <p className="text-red-500 text-sm">
+                                    {errors.parkingPlaces.message}
+                                </p>
+                            )}
                         </div>
 
                         <input
                             type={"submit"}
-                            value="Adicionar propriedade"
+                            value={
+                                loading ? "Carregando..." : "Adicionar Imóvel"
+                            }
                             className={
                                 "border-black border-2 px-4 py-2 bg-black text-white w-4/5 rounded-lg my-8 cursor-pointer"
                             }
