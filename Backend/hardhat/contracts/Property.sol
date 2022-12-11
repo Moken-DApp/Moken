@@ -36,7 +36,7 @@ contract Property is ERC721 {
         _tokenIds.increment();
     }
 
-    // Mints all tokens - 1 (?*10...) for each square meter
+    // Mints all tokens for each square meter
     function createTokens(
         uint256 _idProperty,
         string memory _name,
