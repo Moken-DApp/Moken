@@ -139,7 +139,7 @@ const Home = () => {
                     <button
                         className="bg-black py-2 px-8 text-white rounded-md"
                         onClick={() => {
-                            router.push("/properties");
+                            router.push("/");
                         }}
                     >
                         Ver {properties ? "mais" : ""} propriedades
