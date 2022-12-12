@@ -48,7 +48,7 @@ export const Property = ({
                 />
             )}
 
-            <div className="p-4">
+            <div className="p-4 text-start">
                 <p className="text-sm text-gray-600">{type}</p>
                 <p className="text-xl mb-4">
                     A partir de:{" "}
@@ -61,9 +61,11 @@ export const Property = ({
                 </p>
 
                 <p className="text-md mb-2">
-                    <span>{specification.area}m²</span>, {specification.rooms} ,{" "}
-                    {specification.parkingPlaces}
+                    <span>Area de {specification.area}m²</span>,{" "}
+                    {specification.rooms} comodos, {specification.parkingPlaces} vagas
                 </p>
+
+                
                 <p className="italic font-bold text-sm">{description}</p>
             </div>
         </button>

@@ -50,25 +50,50 @@ const Modal = ({ isOpened }) => {
 
 const PropertyPage = ({ property }) => {
     //get property from the getServerSideProps
-    const [propertyData, setPropertyData] = useState(property);
+    const [propertyData, setPropertyData] = useState({
+        category: "Apartamento",
+        price: 145630.46,
+        address:
+            "Av. Prof. Almeida Prado, 520 - Butantã, São Paulo - SP, 05508-070",
+        area: 342,
+        details: ["6 quartos", "2 vagas"],
+        amount: 1 / 4,
+        id: 3145,
+
+        linkDoc:
+            "https://ipfs.io/ipfs/QmUCod4D3uZcyhVa8mnuCY24gpKasLmdnptFd66MmkogBL",
+        linkImage:
+            "https://ipfs.io/ipfs/QmbSQwkmbd6T2tkexaTemTKCNkfqCiiYUYnE5A3f4AZU4R",
+        description:
+            "Prédio em Curitiba construído durante a revolução farroupilha",
+        type: "Prédio",
+        address: {
+            street: "Av. Oscar Niemeyer",
+            neighborhood: "Poço Verde",
+            city: "Curitiba",
+            state: "Paraná",
+            cep: "01017920",
+        },
+        specification: {
+            rip: "9701.23456.500-2",
+            area: "55",
+            rooms: "8",
+            parkingPlaces: "4",
+        },
+        price: "20000000",
+    });
 
     const router = useRouter();
-
-    useEffect(() => {
-        if (propertyData === null) {
-            router.push("/404");
-        }
-
-        console.log(propertyData);
-    }, [propertyData]);
 
     console.log(console.log(property));
 
     const [isOpened, setIsOpened] = useState(false);
 
+    const [success, setSuccess] = useState(false);
+
     return (
         <>
-            <Modal isOpened={isOpened} />
+            {/* <Modal isOpened={isOpened} /> */}
             <Layout
                 title={`Propriedade ${propertyData.specification.rip}`}
                 navbar={!isOpened}
@@ -212,26 +237,37 @@ const PropertyPage = ({ property }) => {
                         </div>
                     </div>
 
-                    <div className="w-11/12 mt-8 flex justify-center items-center">
+                    <div className="w-11/12 mt-8 flex items-center">
                         <div
-                            className={`bg-white border-2 border-black rounded-2xl w-full`}
+                            className={`bg-white border-2 border-black rounded-2xl w-full flex flex-col justify-center items-center`}
                         >
                             <div className="p-2 flex flex-row items-center ml-8 mt-6">
                                 <p className="text-xs font-bold">Preço Atual</p>
                             </div>
                             <div className="pl-2 flex flex-row items-center ml-8">
                                 <p className="text-md font-bold">
-                                    29,567 ETH por 1/4 do imóvel
+                                    {parseFloat(propertyData.price).toFixed(2)}
                                 </p>
                             </div>
-                            <div className="pl-2 w-full items-center ml-8 mt-4 mb-6">
+                            <div className="w-full flex items-center mt-4 justify-center">
                                 <button
                                     className="bg-black w-4/5 rounded-md text-white h-12"
                                     onClick={() => {
                                         router.push("/cart");
                                     }}
                                 >
-                                    Adicionar ao Carrinho
+                                    Colocar à venda
+                                </button>
+                            </div>
+
+                            <div className="w-full flex items-center mt-4 mb-6 justify-center">
+                                <button
+                                    className="bg-white border-black border-2 w-4/5 rounded-md text-black h-12"
+                                    onClick={() => {
+                                        router.push("/transfer");
+                                    }}
+                                >
+                                    Transferir propriedade
                                 </button>
                             </div>
                         </div>
@@ -241,24 +277,5 @@ const PropertyPage = ({ property }) => {
         </>
     );
 };
-
-export async function getServerSideProps(context) {
-    const { id } = context.query;
-
-    console.log(id);
-
-    let property = await axios
-        .get(`http://127.0.0.1:3001/Propertie/getPropertyMetadata/${id}`)
-        .then((res) => {
-            console.log(res);
-            return res.data;
-        });
-
-    return {
-        props: {
-            property: property,
-        },
-    };
-}
 
 export default PropertyPage;
