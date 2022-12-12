@@ -2,7 +2,7 @@ import { Moken } from "../assets/icons/Moken";
 
 const ConfirmVenda = () => {
     return (
-        <div className="min-h-screen h-full w-full flex flex-col justify-center gap-4 moderat">
+        <div className="min-h-screen h-full w-full flex flex-col justify-center gap-4 moderat md:w-2/5 mx-auto">
             <div className="ml-6">
                 <Moken />
             </div>
