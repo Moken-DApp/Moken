@@ -1,38 +1,38 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { Coin } from "../assets/icons/Coin";
 
 import preview from "../assets/preview.png";
 
 export const Property = ({
-    imageUri,
-    category,
-    price,
+    linkImage,
+    description,
+    type,
     address,
-    area,
-    details,
-    amount,
-    rip,
+    specification,
     shrink,
+    price,
 }) => {
-    console.log(imageUri);
+    const router = useRouter();
+
     return (
-        <Link
+        <button
             className={`bg-white border-2 border-black rounded-2xl ${
                 shrink ? "flex-shrink-0 w-2/3" : "w-full"
             }`}
-            href={`/propriedades/${rip}`}
+            onClick={() => router.push(`/propriedades/${specification.rip}`)}
         >
             <div className="p-2 flex flex-row justify-between items-center">
                 <Coin wripth={20} />
 
-                <p># {rip}</p>
+                <p># {specification.rip}</p>
             </div>
 
-            {imageUri ? (
+            {linkImage ? (
                 <Image
-                    src={imageUri}
-                    loader={() => imageUri}
+                    src={linkImage}
+                    loader={() => linkImage}
                     alt="Picture of the author"
                     width={300}
                     height={200}
@@ -49,22 +49,23 @@ export const Property = ({
             )}
 
             <div className="p-4">
-                <p className="text-sm text-gray-600">{category}</p>
+                <p className="text-sm text-gray-600">{type}</p>
                 <p className="text-xl mb-4">
                     A partir de:{" "}
                     <span className="text-2xl font-bold">R$ {price}</span>
                 </p>
 
-                <p className="text-gray-700 font-bold mb-4">{address}</p>
+                <p className="text-gray-700 font-bold mb-4">
+                    {address.street}, {address.neighborhood}, {address.city},{" "}
+                    {address.state}
+                </p>
 
                 <p className="text-md mb-2">
-                    <span>{area}m² </span>
-                    {details.map((detail) => `${detail} `)}
+                    <span>{specification.area}m²</span>, {specification.rooms} ,{" "}
+                    {specification.parkingPlaces}
                 </p>
-                {/* <p className="italic font-bold text-sm">
-                    Esse token representa {amount * 100}% da propriedade total.
-                </p> */}
+                <p className="italic font-bold text-sm">{description}</p>
             </div>
-        </Link>
+        </button>
     );
 };

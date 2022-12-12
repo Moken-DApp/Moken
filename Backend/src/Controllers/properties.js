@@ -6,7 +6,7 @@ const Propertie = new propertie.Propertie();
 
 const createPropertie = async (req, res) => {
     //Pega as infos da requisição
-    const { linkImage, linkDoc, description, type, address, specifications } =
+    const { linkImage, linkDoc, description, type, address, specifications, price } =
         req.body;
     //Valida se algum paremetro é inválido
     const errors = validationResult(req);
@@ -25,7 +25,8 @@ const createPropertie = async (req, res) => {
             description,
             type,
             address,
-            specifications
+            specifications,
+            price
         );
         res.send(result);
     } catch (err) {
@@ -86,6 +87,16 @@ const getProperties = async (req, res) => {
     }
 };
 
+const getPropertiesMetadata = async (req, res) => {
+    try {
+        //Tratamento das respostas do método da classe
+        const result = await Propertie.getPropertiesMetadata();
+        res.send(result);
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+};
+
 const deletePropertie = async (req, res) => {
     //Pega as infos da requisição
     const { id } = req.params;
@@ -137,4 +148,5 @@ module.exports = {
     getProperties,
     getProperty,
     getPropertyMetadata,
+    getPropertiesMetadata,
 };

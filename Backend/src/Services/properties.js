@@ -16,7 +16,7 @@ class Propertie {
         type,
         address,
         especification,
-        cpfOwner
+        price
     ) {
         const object = {
             linkDoc: linkDoc,
@@ -25,7 +25,10 @@ class Propertie {
             type: type,
             address: address,
             specification: especification,
+            price: price,
         };
+
+        console.log(especification.rip);
 
         let generatedLink = "";
 
@@ -48,13 +51,18 @@ class Propertie {
         let tokenAddress = "";
 
         try {
-            await contracts.createProperty(generatedLink, String(especification.rip));
+            await contracts.createProperty(
+                generatedLink,
+                String(especification.rip)
+            );
         } catch (err) {
             throw new Error(err.message);
         }
 
         try {
-            tokenAddress = await contracts.getTokenAdr(String(especification.rip));
+            tokenAddress = await contracts.getTokenAdr(
+                String(especification.rip)
+            );
         } catch (err) {
             throw new Error(err.message);
         }
@@ -142,6 +150,29 @@ class Propertie {
     async getProperties() {
         try {
             const result = await contracts.getProperties();
+            return result;
+        } catch (err) {
+            throw new Error(err.message);
+        }
+    }
+
+    async getPropertiesMetadata() {
+        try {
+            const result = [];
+
+            const properties = await contracts.getProperties();
+
+            async function setResults() {
+                for (let i = 0; i < properties.length; i++) {
+                    const resul = await axios.get(properties[i]).then((res) => {
+                        return res.data;
+                    });
+                    result.push(resul);
+                }
+            }
+
+            await setResults();
+
             return result;
         } catch (err) {
             throw new Error(err.message);

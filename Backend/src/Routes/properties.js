@@ -38,6 +38,12 @@ router.post(
             "Especificação da Propriedade é necessário"
         ).exists({ checkFalsy: true }),
     ],
+    [
+        body(
+            "price",
+            "Preço da Propriedade é necessário"
+        ).exists({ checkFalsy: true }),
+    ],
     propertieController.createPropertie
 );
 
@@ -61,12 +67,9 @@ router.get(
     propertieController.getPropertyMetadata
 );
 
-router.get(
-    "/getProperties",
-    propertieController.getProperties
-)
-
 router.get("/getProperties", propertieController.getProperties);
+
+router.get("/getPropertiesMetadata", propertieController.getPropertiesMetadata);
 
 //Exporta o ROUTER
 module.exports = router;

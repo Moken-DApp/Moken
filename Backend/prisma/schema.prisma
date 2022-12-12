@@ -11,35 +11,36 @@ datasource db {
 }
 
 model Offer {
-  id              String      @id @unique
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  price           Float
-  tokenAddress    String      @unique
-  type            String
-  accessWallet    String
+  id           String   @id @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  price        Float
+  tokenAddress String   @unique
+  type         String
+  accessWallet String
 
   @@map("offers")
 }
 
 model Admin {
-  id              String   @id @unique
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  name            String   @unique
-  email           String   @unique
-  password        String
-  wallet          String   @unique  @default("0x0000000000000000000000000000000000000000")
+  id        String   @id @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String   @unique
+  email     String   @unique
+  password  String
+  wallet    String   @unique @default("0x0000000000000000000000000000000000000000")
 
   @@map("admins")
 }
 
 model Owner {
-  tokenAddress    String    @unique
-  cpfOwner        String    
-  ownerAddress    String    
-  data            DateTime  @default(now())
-  atual           Boolean
+  id           Int      @id @default(autoincrement())
+  tokenAddress String
+  cpfOwner     String
+  ownerAddress String
+  data         DateTime @default(now())
+  atual        Boolean
 
   @@map("owners")
 }

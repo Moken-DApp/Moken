@@ -17,64 +17,70 @@ const Home = () => {
 
     const [properties, setProperties] = useState([
         {
-            category: "Apartamento",
-            price: 145630.46,
-            address:
-                "Av. Prof. Almeida Prado, 520 - Butantã, São Paulo - SP, 05508-070",
-            area: 342,
-            details: ["6 quartos", "2 vagas"],
-            amount: 1 / 4,
-            rip: "9701.23456.500-1",
+            price: 150000,
+            linkDoc:
+                "https://ipfs.io/ipfs/QmYFHiHnjosanx9BkjUyk3oD3w26bzfiodsgWQGrQjWCUi",
+            linkImage:
+                "https://ipfs.io/ipfs/QmPzuRjAS7J8sKiQESvzytgtNReDd4snvjkDRZhkH256HG",
+            description: "Apartamento",
+            type: "Apartamento",
+            address: {
+                street: "Faria Lima",
+                neighborhood: "Itaim",
+                city: "Sao Paulo",
+                state: "Sao Paulo",
+                cep: "0000000",
+            },
+            specification: {
+                rip: "1234567890",
+                area: "500",
+                rooms: "12",
+                parkingPlaces: "10",
+            },
         },
         {
-            category: "Apartamento",
-            price: 145630.46,
-            address:
-                "Av. Prof. Almeida Prado, 520 - Butantã, São Paulo - SP, 05508-070",
-            area: 342,
-            details: ["6 quartos", "2 vagas"],
-            amount: 1 / 4,
-            rip: "9701.23456.500-1",
+            price: 150000,
+            linkDoc:
+                "https://ipfs.io/ipfs/QmYFHiHnjosanx9BkjUyk3oD3w26bzfiodsgWQGrQjWCUi",
+            linkImage:
+                "https://ipfs.io/ipfs/QmPzuRjAS7J8sKiQESvzytgtNReDd4snvjkDRZhkH256HG",
+            description: "Apartamento",
+            type: "Apartamento",
+            address: {
+                street: "Faria Lima",
+                neighborhood: "Itaim",
+                city: "Sao Paulo",
+                state: "Sao Paulo",
+                cep: "0000000",
+            },
+            specification: {
+                rip: "1234567890",
+                area: "500",
+                rooms: "12",
+                parkingPlaces: "10",
+            },
         },
         {
-            category: "Apartamento",
-            price: 145630.46,
-            address:
-                "Av. Prof. Almeida Prado, 520 - Butantã, São Paulo - SP, 05508-070",
-            area: 342,
-            details: ["6 quartos", "2 vagas"],
-            amount: 1 / 4,
-            rip: "9701.23456.500-1",
-        },
-        {
-            category: "Apartamento",
-            price: 145630.46,
-            address:
-                "Av. Prof. Almeida Prado, 520 - Butantã, São Paulo - SP, 05508-070",
-            area: 342,
-            details: ["6 quartos", "2 vagas"],
-            amount: 1 / 4,
-            rip: "9701.23456.500-1",
-        },
-        {
-            category: "Apartamento",
-            price: 145630.46,
-            address:
-                "Av. Prof. Almeida Prado, 520 - Butantã, São Paulo - SP, 05508-070",
-            area: 342,
-            details: ["6 quartos", "2 vagas"],
-            amount: 1 / 4,
-            rip: "9701.23456.500-1",
-        },
-        {
-            category: "Apartamento",
-            price: 145630.46,
-            address:
-                "Av. Prof. Almeida Prado, 520 - Butantã, São Paulo - SP, 05508-070",
-            area: 342,
-            details: ["6 quartos", "2 vagas"],
-            amount: 1 / 4,
-            rip: "9701.23456.500-1",
+            price: 150000,
+            linkDoc:
+                "https://ipfs.io/ipfs/QmYFHiHnjosanx9BkjUyk3oD3w26bzfiodsgWQGrQjWCUi",
+            linkImage:
+                "https://ipfs.io/ipfs/QmPzuRjAS7J8sKiQESvzytgtNReDd4snvjkDRZhkH256HG",
+            description: "Apartamento",
+            type: "Apartamento",
+            address: {
+                street: "Faria Lima",
+                neighborhood: "Itaim",
+                city: "Sao Paulo",
+                state: "Sao Paulo",
+                cep: "0000000",
+            },
+            specification: {
+                rip: "1234567890",
+                area: "500",
+                rooms: "12",
+                parkingPlaces: "10",
+            },
         },
     ]);
 

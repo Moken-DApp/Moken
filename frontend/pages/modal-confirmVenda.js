@@ -22,14 +22,20 @@ const ConfirmVenda = () => {
             <div className="w-full flex justify-center">
                 <div className="flex flex-col gap-2 items-center w-3/5 rounded-lg mt-12 border-2 border-dashed border-black">
                     <u className="text-xl font-bold mt-4">Observação</u>
-                    <p className="text-sm w-11/12 text-center mb-4">O dado solicitado acima, têm como objetivo combater crimes como o de falsidade ideológica e lavagem de dinheiro</p>
+                    <p className="text-sm w-11/12 text-center mb-4">
+                        O dado solicitado acima, têm como objetivo combater
+                        crimes como o de falsidade ideológica e lavagem de
+                        dinheiro
+                    </p>
                 </div>
             </div>
             <div className="w-full flex justify-center">
-                <button className="bg-black w-4/5 rounded-md text-white h-12 mt-12">Continuar</button>
+                <button className="bg-black w-4/5 rounded-md text-white h-12 mt-12">
+                    Continuar
+                </button>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default ConfirmVenda;

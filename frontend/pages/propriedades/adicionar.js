@@ -5,7 +5,7 @@ import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import axios from "axios";
+import axios from "../../utils/axios";
 
 const SuccessModal = ({ modalOpened, link }) => {
     const router = useRouter();
@@ -110,7 +110,6 @@ const Adicionar = () => {
             const documentHash = await sendFileToIPFS(document[0]);
 
             const property = {
-                rip,
                 linkImage: imageHash,
                 linkDoc: documentHash,
                 price,
@@ -124,6 +123,7 @@ const Adicionar = () => {
                     cep,
                 },
                 specifications: {
+                    rip,
                     area,
                     rooms,
                     parkingPlaces,
@@ -131,10 +131,7 @@ const Adicionar = () => {
             };
 
             await axios
-                .post(
-                    "http://10.254.17.173:3001/Propertie/createPropertie",
-                    property
-                )
+                .post("/Propertie/createPropertie", property)
                 .then((data) => {
                     setLink(data.data);
                     setModalOpened(true);
@@ -271,7 +268,7 @@ const Adicionar = () => {
                             </p>
                             <input
                                 type={"number"}
-                                placeholder={"Ex.: 1000"}
+                                placeholder={"R$ 156,500.00"}
                                 className={
                                     "border-black border-2 px-4 py-2 rounded-lg w-full mt-2"
                                 }
@@ -459,14 +456,15 @@ const Adicionar = () => {
 
                             <input
                                 type={"number"}
-                                placeholder="Número de quartos"
+                                placeholder="Número de quartos / salas"
                                 min={1}
                                 max={100}
                                 className={
                                     "border-black border-2 px-4 py-2 rounded-lg w-full mt-2"
                                 }
                                 {...register("rooms", {
-                                    required: "Indique o número de quartos",
+                                    required:
+                                        "Indique o número de quartos / salas",
                                 })}
                             />
                             {errors.rooms && (
@@ -496,6 +494,7 @@ const Adicionar = () => {
 
                         <input
                             type={"submit"}
+                            disabled={loading}
                             value={
                                 loading ? "Carregando..." : "Adicionar Imóvel"
                             }

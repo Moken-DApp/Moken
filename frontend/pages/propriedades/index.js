@@ -11,6 +11,8 @@ import { Context } from "../../context";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
+import axios from "../../utils/axios";
+
 export const Modal = ({ opened, closeModal, filter, setFilter }) => {
     const {
         register,
@@ -91,74 +93,7 @@ const Properties = ({ data }) => {
     const { state, dispatch } = useContext(Context);
     const router = useRouter();
 
-    const [properties, setProperties] = useState([
-        {
-            image: preview,
-            category: "Apartamento",
-            price: 145630.46,
-            address:
-                "Av. Prof. Almeida Prado, 520 - Butantã, São Paulo - SP, 05508-070",
-            area: 342,
-            details: ["6 quartos", "2 vagas"],
-            amount: 1 / 4,
-            rip: "9701.23456.500-1",
-        },
-        {
-            image: preview,
-            category: "Apartamento",
-            price: 245630.46,
-            address:
-                "Av. Prof. Almeida Prado, 520 - Butantã, São Paulo - SP, 05508-070",
-            area: 342,
-            details: ["6 quartos", "2 vagas"],
-            amount: 1 / 4,
-            rip: "9701.23456.500-1",
-        },
-        {
-            image: preview,
-            category: "Apartamento",
-            price: 345630.46,
-            address:
-                "Av. Prof. Almeida Prado, 520 - Butantã, São Paulo - SP, 05508-070",
-            area: 342,
-            details: ["6 quartos", "2 vagas"],
-            amount: 1 / 4,
-            rip: "9701.23456.500-1",
-        },
-        {
-            image: preview,
-            category: "Apartamento",
-            price: 445630.46,
-            address:
-                "Av. Prof. Almeida Prado, 520 - Butantã, São Paulo - SP, 05508-070",
-            area: 342,
-            details: ["6 quartos", "2 vagas"],
-            amount: 1 / 4,
-            rip: "9701.23456.500-1",
-        },
-        {
-            image: preview,
-            category: "Apartamento",
-            price: 545630.46,
-            address:
-                "Av. Prof. Almeida Prado, 520 - Butantã, São Paulo - SP, 05508-070",
-            area: 342,
-            details: ["6 quartos", "2 vagas"],
-            amount: 1 / 4,
-            rip: "9701.23456.500-1",
-        },
-        {
-            image: preview,
-            category: "Apartamento",
-            price: 645630.46,
-            address:
-                "Av. Prof. Almeida Prado, 520 - Butantã, São Paulo - SP, 05508-070",
-            area: 342,
-            details: ["6 quartos", "2 vagas"],
-            amount: 1 / 4,
-            rip: "9701.23456.500-1",
-        },
-    ]);
+    const [properties, setProperties] = useState(data);
 
     const [filter, setFilter] = useState({
         maxValue: 0,
@@ -187,6 +122,10 @@ const Properties = ({ data }) => {
     };
 
     const [modalOpened, setModalOpened] = useState(false);
+
+    useEffect(() => {
+        console.log(properties);
+    }, []);
 
     return (
         <>
@@ -278,7 +217,7 @@ const Properties = ({ data }) => {
                                     <Property {...property} />
                                 </div>
                             ))
-                        ) : properties ? (
+                        ) : properties && properties.length > 0 ? (
                             properties.map((property, index) => (
                                 <div
                                     key={index}
@@ -289,8 +228,8 @@ const Properties = ({ data }) => {
                             ))
                         ) : (
                             <div className="flex flex-1 flex-col items-center justify-center w-full py-8 mb-4">
-                                <p className="text-3xl text-gray-600 text-center">
-                                    Nenhuma propriedade foi encontrada!
+                                <p className="text-xl text-gray-600 text-center">
+                                    Carregando...
                                 </p>
                             </div>
                         )}
@@ -303,6 +242,14 @@ const Properties = ({ data }) => {
 
 export async function getServerSideProps(context) {
     let properties = [];
+
+    const res = await axios
+        .get("/Propertie/getPropertiesMetadata")
+        .then((response) => {
+            return response.data;
+        });
+
+    properties = res;
 
     return {
         props: {

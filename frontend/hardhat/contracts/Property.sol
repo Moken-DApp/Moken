@@ -6,11 +6,12 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 
 import "./Token.sol";
 
+// Contract that creates the properties and the tokens for each property
 contract Property is ERC721 {
     address public owner;
 
-    mapping(uint => address) public propetiesERC20;
-    mapping(uint => string) public tokenURIs;
+    mapping(uint256 => address) public propetiesERC20;
+    mapping(uint256 => string) public tokenURIs;
     mapping(string => string) public tokenURIByRIP;
     mapping(string => address) public tokenAddressByRIP;
 
@@ -28,18 +29,19 @@ contract Property is ERC721 {
         _;
     }
 
+    // Creates a new property
     function createProperty(string memory _uri, string memory _rip) external {
         _mint(msg.sender, _tokenIds.current());
         _setTokenURI(_tokenIds.current(), _uri, _rip);
         _tokenIds.increment();
     }
 
-    // Mints all tokens - 1 (?*10...) for each square meter
+    // Mints all tokens for each square meter
     function createTokens(
-        uint _idProperty,
+        uint256 _idProperty,
         string memory _name,
         string memory _symbol,
-        uint _area
+        uint256 _area
     ) public govOwner {
         address newTokenProperty = address(
             new Token(_name, _symbol, owner, _area)
@@ -51,7 +53,7 @@ contract Property is ERC721 {
     function getTokenURIs() public view returns (string[] memory) {
         string[] memory uris = new string[](_tokenIds.current());
 
-        for (uint i = 0; i < _tokenIds.current(); i++) {
+        for (uint256 i = 0; i < _tokenIds.current(); i++) {
             uris[i] = tokenURIs[i];
         }
 
@@ -64,22 +66,26 @@ contract Property is ERC721 {
     }
 
     // Get token uri by rip
-    function getTokenURIByRIP(
-        string memory rip
-    ) public view returns (string memory) {
+    function getTokenURIByRIP(string memory rip)
+        public
+        view
+        returns (string memory)
+    {
         return tokenURIByRIP[rip];
     }
 
     // Get this token address by rip
-    function getTokenAddressByRIP(
-        string memory rip
-    ) public view returns (address) {
+    function getTokenAddressByRIP(string memory rip)
+        public
+        view
+        returns (address)
+    {
         return tokenAddressByRIP[rip];
     }
 
     // Sets the token uri for the specific token
     function _setTokenURI(
-        uint _tokenId,
+        uint256 _tokenId,
         string memory _uri,
         string memory rip
     ) internal {
@@ -88,9 +94,13 @@ contract Property is ERC721 {
         tokenAddressByRIP[rip] = propetiesERC20[_tokenId];
     }
 
-    function tokenURI(
-        uint256 _id
-    ) public view override returns (string memory) {
+    // Gets the token uri for the specific token
+    function tokenURI(uint256 _id)
+        public
+        view
+        override
+        returns (string memory)
+    {
         return tokenURIs[_id];
     }
 }
