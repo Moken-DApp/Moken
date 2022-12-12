@@ -47,7 +47,7 @@ async function getProperty(id) {
         wallet
     );
 
-    const response = await contract.getProperty(id);
+    const response = await contract.getTokenURIByRIP(id);
 
     return response;
 }
@@ -99,9 +99,31 @@ async function getProperties() {
     return response;
 }
 
+
+async function getTokenAdr() {
+    const provider = new CeloProvider(
+        "https://alfajores-forno.celo-testnet.org"
+    );
+
+    await provider.ready;
+
+    const wallet = new CeloWallet(process.env.PRIVATE_KEY_CONTRACT, provider);
+
+    const contract = new ethers.Contract(
+        address.addresses[0].InteliFactory,
+        storage.abi,
+        wallet
+    );
+
+    const response = await contract.getTokenAdr();
+
+    return response;
+}
+
 module.exports = {
     createProperty,
     getProperty,
     getPropertyMetadata,
     getProperties,
+    getTokenAdr
 };

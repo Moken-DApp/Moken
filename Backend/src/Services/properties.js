@@ -60,7 +60,7 @@ class Propertie {
         }
 
         try {
-            await prisma.cpfToken.create({
+            await prisma.owner.create({
                 data: {
                     tokenAddress: tokenAddress,
                     cpfOwner: "00000000000",
