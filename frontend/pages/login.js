@@ -97,7 +97,6 @@ const Login = () => {
                     })
                     .catch((err) => {
                         setloggingIn(false);
-                        console.log(err);
                     });
             } catch (err) {
                 console.error(err);

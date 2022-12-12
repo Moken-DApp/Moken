@@ -17,11 +17,11 @@ export const Property = ({
 }) => {
     console.log(imageUri);
     return (
-        <div
+        <Link
             className={`bg-white border-2 border-black rounded-2xl ${
                 shrink ? "flex-shrink-0 w-2/3" : "w-full"
             }`}
-            // href={`/propriedades/${rip}`}
+            href={`/propriedades/${rip}`}
         >
             <div className="p-2 flex flex-row justify-between items-center">
                 <Coin wripth={20} />
@@ -65,6 +65,6 @@ export const Property = ({
                     Esse token representa {amount * 100}% da propriedade total.
                 </p> */}
             </div>
-        </div>
+        </Link>
     );
 };

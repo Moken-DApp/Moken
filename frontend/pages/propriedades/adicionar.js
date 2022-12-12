@@ -91,6 +91,7 @@ const Adicionar = () => {
         const {
             image,
             document,
+            price,
             type,
             description,
             street,
@@ -112,6 +113,7 @@ const Adicionar = () => {
                 rip,
                 linkImage: imageHash,
                 linkDoc: documentHash,
+                price,
                 type,
                 description,
                 address: {
@@ -258,6 +260,28 @@ const Adicionar = () => {
                             {errors.document && (
                                 <p className="text-red-500 text-sm">
                                     {errors.document.message}
+                                </p>
+                            )}
+                        </div>
+
+                        <div className="flex flex-col justify-center w-full">
+                            <p className="text-lg text-black mt-8">
+                                Preço:{" "}
+                                <span className="text-red-500 text-md">*</span>
+                            </p>
+                            <input
+                                type={"number"}
+                                placeholder={"Ex.: 1000"}
+                                className={
+                                    "border-black border-2 px-4 py-2 rounded-lg w-full mt-2"
+                                }
+                                {...register("price", {
+                                    required: "Indique o preço do imóvel",
+                                })}
+                            />
+                            {errors.price && (
+                                <p className="text-red-500 text-sm">
+                                    {errors.price.message}
                                 </p>
                             )}
                         </div>

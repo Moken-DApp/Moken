@@ -11,7 +11,6 @@ const address = require("../hardhat/utils/contractsAddresses.json");
 const { CeloWallet } = require("@celo-tools/celo-ethers-wrapper");
 
 async function createProperty(URI, rip) {
-    console.log(URI, rip);
     const provider = new CeloProvider(
         "https://alfajores-forno.celo-testnet.org"
     );

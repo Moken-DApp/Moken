@@ -87,7 +87,7 @@ export const Modal = ({ opened, closeModal, filter, setFilter }) => {
     ) : null;
 };
 
-const Properties = () => {
+const Properties = ({ data }) => {
     const { state, dispatch } = useContext(Context);
     const router = useRouter();
 
@@ -300,5 +300,15 @@ const Properties = () => {
         </>
     );
 };
+
+export async function getServerSideProps(context) {
+    let properties = [];
+
+    return {
+        props: {
+            data: properties,
+        },
+    };
+}
 
 export default Properties;

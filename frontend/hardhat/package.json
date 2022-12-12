@@ -1,5 +1,8 @@
 {
   "name": "hardhat-project",
+  "scripts": {
+    "deploy": "npx hardhat run ./scripts/deploy.js --network alfajores"
+  },
   "devDependencies": {
     "@nomiclabs/hardhat-waffle": "^2.0.3",
     "dotenv": "^16.0.3"
