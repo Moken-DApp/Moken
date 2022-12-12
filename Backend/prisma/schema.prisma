@@ -34,12 +34,12 @@ model Admin {
   @@map("admins")
 }
 
-model CpfToken {
+model Owner {
   tokenAddress    String    @unique
   cpfOwner        String    
   ownerAddress    String    
   data            DateTime  @default(now())
   atual           Boolean
 
-  @@map("cpf_tokens")
+  @@map("owners")
 }
